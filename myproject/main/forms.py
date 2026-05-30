@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import Course
+from .models import Course, Review
 
 
 class CourseForm(forms.ModelForm):
@@ -48,3 +48,32 @@ class CouponApplyForm(forms.Form):
             'placeholder': '請輸入優惠碼，沒有可留空'
         })
     )
+
+    from .models import Review
+
+
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = ['rating', 'comment']
+
+        labels = {
+            'rating': '評分',
+            'comment': '評論內容',
+        }
+
+        widgets = {
+            'rating': forms.Select(
+                choices=[
+                    (5, '5 星 - 非常滿意'),
+                    (4, '4 星 - 滿意'),
+                    (3, '3 星 - 普通'),
+                    (2, '2 星 - 不太滿意'),
+                    (1, '1 星 - 不滿意'),
+                ]
+            ),
+            'comment': forms.Textarea(attrs={
+                'rows': 4,
+                'placeholder': '請輸入你對這門課的想法'
+            }),
+        }

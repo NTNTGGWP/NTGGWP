@@ -4,7 +4,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.db.models import Sum
+from django.db.models import Sum, Avg
+
 from .models import (
     Course,
     Profile,
@@ -12,35 +13,103 @@ from .models import (
     LearningRecord,
     Coupon,
     Order,
+    OrderItem,
     CouponUsage,
+    Payment,
+    Notification,
+    Review,
 )
-from .forms import RegisterForm, CourseForm, CouponApplyForm
+
+from .forms import RegisterForm, CourseForm, CouponApplyForm, ReviewForm
 
 
 def home(request):
-    courses = Course.objects.all()
-    return render(request, 'main/home.html', {'courses': courses})
+    courses = Course.objects.filter(is_published=True).select_related(
+        'teacher',
+        'category'
+    )
+
+    return render(request, 'main/home.html', {
+        'courses': courses
+    })
 
 
 def course_detail(request, course_id):
     course = get_object_or_404(Course, id=course_id)
 
     already_purchased = False
+    can_review = False
+    my_review = None
+    review_form = None
+
     if request.user.is_authenticated:
         already_purchased = Enrollment.objects.filter(
             student=request.user,
             course=course
         ).exists()
 
+        if already_purchased:
+            can_review = True
+            my_review = Review.objects.filter(
+                user=request.user,
+                course=course
+            ).first()
+
+    if request.method == 'POST':
+        if not request.user.is_authenticated:
+            return redirect('login')
+
+        if not already_purchased:
+            return redirect('course_detail', course_id=course.id)
+
+        if my_review:
+            review_form = ReviewForm(request.POST, instance=my_review)
+        else:
+            review_form = ReviewForm(request.POST)
+
+        if review_form.is_valid():
+            review = review_form.save(commit=False)
+            review.user = request.user
+            review.course = course
+            review.save()
+
+            return redirect('course_detail', course_id=course.id)
+
+    else:
+        if my_review:
+            review_form = ReviewForm(instance=my_review)
+        else:
+            review_form = ReviewForm()
+
+    chapters = course.chapters.prefetch_related('lessons').all()
+
+    reviews = Review.objects.filter(
+        course=course
+    ).select_related('user').order_by('-created_at')
+
+    average_rating = reviews.aggregate(avg=Avg('rating'))['avg']
+    if average_rating:
+        average_rating = round(average_rating, 1)
+
+    review_count = reviews.count()
+
     return render(request, 'main/course_detail.html', {
         'course': course,
-        'already_purchased': already_purchased
+        'already_purchased': already_purchased,
+        'chapters': chapters,
+        'reviews': reviews,
+        'average_rating': average_rating,
+        'review_count': review_count,
+        'can_review': can_review,
+        'my_review': my_review,
+        'review_form': review_form,
     })
 
 
 def register(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
+
         if form.is_valid():
             user = User.objects.create_user(
                 username=form.cleaned_data['username'],
@@ -57,7 +126,9 @@ def register(request):
     else:
         form = RegisterForm()
 
-    return render(request, 'main/register.html', {'form': form})
+    return render(request, 'main/register.html', {
+        'form': form
+    })
 
 
 def register_success(request):
@@ -80,7 +151,11 @@ def login_view(request):
         else:
             username = login_input
 
-        user = authenticate(request, username=username, password=password)
+        user = authenticate(
+            request,
+            username=username,
+            password=password
+        )
 
         if user is not None:
             login(request, user)
@@ -90,18 +165,23 @@ def login_view(request):
 
             try:
                 profile = user.profile
+
                 if profile.role == 'teacher':
                     return redirect('teacher_dashboard')
                 elif profile.role == 'student':
                     return redirect('student_dashboard')
                 else:
                     return redirect('home')
+
             except Profile.DoesNotExist:
                 return redirect('home')
+
         else:
             error_message = '帳號 / Email 或密碼錯誤。'
 
-    return render(request, 'main/login.html', {'error_message': error_message})
+    return render(request, 'main/login.html', {
+        'error_message': error_message
+    })
 
 
 def logout_view(request):
@@ -116,11 +196,15 @@ def profile_view(request):
     except Profile.DoesNotExist:
         return redirect('home')
 
-    total_minutes = LearningRecord.objects.filter(user=request.user).aggregate(
+    total_minutes = LearningRecord.objects.filter(
+        user=request.user
+    ).aggregate(
         total=Sum('minutes')
     )['total'] or 0
 
-    purchased_count = Enrollment.objects.filter(student=request.user).count()
+    purchased_count = Enrollment.objects.filter(
+        student=request.user
+    ).count()
 
     return render(request, 'main/profile.html', {
         'profile': profile,
@@ -133,16 +217,22 @@ def profile_view(request):
 def student_dashboard(request):
     try:
         profile = request.user.profile
+
         if profile.role != 'student':
             return redirect('home')
+
     except Profile.DoesNotExist:
         return redirect('home')
 
-    total_minutes = LearningRecord.objects.filter(user=request.user).aggregate(
+    total_minutes = LearningRecord.objects.filter(
+        user=request.user
+    ).aggregate(
         total=Sum('minutes')
     )['total'] or 0
 
-    purchased_count = Enrollment.objects.filter(student=request.user).count()
+    purchased_count = Enrollment.objects.filter(
+        student=request.user
+    ).count()
 
     return render(request, 'main/student_dashboard.html', {
         'total_minutes': total_minutes,
@@ -154,30 +244,52 @@ def student_dashboard(request):
 def teacher_dashboard(request):
     try:
         profile = request.user.profile
+
         if profile.role != 'teacher':
             return redirect('home')
+
     except Profile.DoesNotExist:
         return redirect('home')
 
-    teacher_courses = Course.objects.filter(teacher=request.user)
+    teacher_courses = Course.objects.filter(
+        teacher=request.user
+    ).select_related('category')
 
     course_data = []
+
     for course in teacher_courses:
-        purchase_count = Enrollment.objects.filter(course=course).count()
-        total_watch_minutes = LearningRecord.objects.filter(course=course).aggregate(
+        purchase_count = Enrollment.objects.filter(
+            course=course
+        ).count()
+
+        total_watch_minutes = LearningRecord.objects.filter(
+            course=course
+        ).aggregate(
             total=Sum('minutes')
         )['total'] or 0
 
         total_revenue = Order.objects.filter(
             course=course,
             status='paid'
-        ).aggregate(total=Sum('final_price'))['total'] or 0
+        ).aggregate(
+            total=Sum('final_price')
+        )['total'] or 0
+
+        average_rating = Review.objects.filter(
+            course=course
+        ).aggregate(
+            avg=Avg('rating')
+        )['avg']
+
+        if average_rating:
+            average_rating = round(average_rating, 1)
 
         course_data.append({
             'course': course,
             'purchase_count': purchase_count,
             'total_watch_minutes': total_watch_minutes,
             'total_revenue': total_revenue,
+            'average_rating': average_rating,
         })
 
     return render(request, 'main/teacher_dashboard.html', {
@@ -194,15 +306,19 @@ def my_courses(request):
 
     enrollments = Enrollment.objects.filter(
         student=request.user
-    ).select_related('course')
+    ).select_related('course', 'course__teacher', 'course__category')
 
     for enrollment in enrollments:
         enrollment.watch_minutes = LearningRecord.objects.filter(
             user=request.user,
             course=enrollment.course
-        ).aggregate(total=Sum('minutes'))['total'] or 0
+        ).aggregate(
+            total=Sum('minutes')
+        )['total'] or 0
 
-    total_minutes = LearningRecord.objects.filter(user=request.user).aggregate(
+    total_minutes = LearningRecord.objects.filter(
+        user=request.user
+    ).aggregate(
         total=Sum('minutes')
     )['total'] or 0
 
@@ -221,7 +337,10 @@ def checkout(request, course_id):
     except Profile.DoesNotExist:
         return redirect('home')
 
-    if Enrollment.objects.filter(student=request.user, course=course).exists():
+    if Enrollment.objects.filter(
+        student=request.user,
+        course=course
+    ).exists():
         return redirect('course_detail', course_id=course.id)
 
     form = CouponApplyForm(request.POST or None)
@@ -239,6 +358,7 @@ def checkout(request, course_id):
         if coupon_code:
             try:
                 coupon = Coupon.objects.get(code__iexact=coupon_code)
+
             except Coupon.DoesNotExist:
                 coupon = None
                 error_message = '找不到這張優惠券。'
@@ -247,6 +367,7 @@ def checkout(request, course_id):
                 if not coupon.is_valid_now():
                     error_message = '這張優惠券目前不可使用。'
                     coupon = None
+
                 else:
                     discount_amount = coupon.calculate_discount(original_price)
 
@@ -254,6 +375,7 @@ def checkout(request, course_id):
                         error_message = '此優惠券未達最低消費金額或無法套用。'
                         coupon = None
                         discount_amount = 0
+
                     else:
                         final_price = original_price - discount_amount
                         success_message = f'優惠券已套用，折抵 NT$ {discount_amount}。'
@@ -269,6 +391,21 @@ def checkout(request, course_id):
                 status='paid'
             )
 
+            OrderItem.objects.create(
+                order=order,
+                course=course,
+                price=original_price
+            )
+
+            Payment.objects.create(
+                order=order,
+                method='mock',
+                amount=final_price,
+                status='paid',
+                transaction_no=f'MOCK-{order.id:05d}',
+                paid_at=order.created_at
+            )
+
             Enrollment.objects.get_or_create(
                 student=request.user,
                 course=course
@@ -281,6 +418,12 @@ def checkout(request, course_id):
                     order=order,
                     discount_amount=discount_amount
                 )
+
+            Notification.objects.create(
+                user=request.user,
+                title='購買成功通知',
+                content=f'你已成功購買「{course.title}」，實付金額 NT$ {final_price}。'
+            )
 
             return redirect('order_success', order_id=order.id)
 
@@ -297,7 +440,12 @@ def checkout(request, course_id):
 
 @login_required
 def order_success(request, order_id):
-    order = get_object_or_404(Order, id=order_id, user=request.user)
+    order = get_object_or_404(
+        Order,
+        id=order_id,
+        user=request.user
+    )
+
     return render(request, 'main/order_success.html', {
         'order': order
     })
@@ -311,7 +459,10 @@ def buy_course(request, course_id):
 @login_required
 def purchase_success(request, course_id):
     course = get_object_or_404(Course, id=course_id)
-    return render(request, 'main/purchase_success.html', {'course': course})
+
+    return render(request, 'main/purchase_success.html', {
+        'course': course
+    })
 
 
 @login_required
@@ -339,40 +490,59 @@ def watch_course(request, course_id):
 def create_course(request):
     try:
         profile = request.user.profile
+
         if profile.role != 'teacher':
             return redirect('home')
+
     except Profile.DoesNotExist:
         return redirect('home')
 
     if request.method == 'POST':
         form = CourseForm(request.POST, request.FILES)
+
         if form.is_valid():
             course = form.save(commit=False)
             course.teacher = request.user
             course.save()
+
             return redirect('teacher_dashboard')
+
     else:
         form = CourseForm()
 
-    return render(request, 'main/create_course.html', {'form': form})
+    return render(request, 'main/create_course.html', {
+        'form': form
+    })
 
 
 @login_required
 def edit_course(request, course_id):
     try:
         profile = request.user.profile
+
         if profile.role != 'teacher':
             return redirect('home')
+
     except Profile.DoesNotExist:
         return redirect('home')
 
-    course = get_object_or_404(Course, id=course_id, teacher=request.user)
+    course = get_object_or_404(
+        Course,
+        id=course_id,
+        teacher=request.user
+    )
 
     if request.method == 'POST':
-        form = CourseForm(request.POST, request.FILES, instance=course)
+        form = CourseForm(
+            request.POST,
+            request.FILES,
+            instance=course
+        )
+
         if form.is_valid():
             form.save()
             return redirect('teacher_dashboard')
+
     else:
         form = CourseForm(instance=course)
 
@@ -386,12 +556,18 @@ def edit_course(request, course_id):
 def delete_course(request, course_id):
     try:
         profile = request.user.profile
+
         if profile.role != 'teacher':
             return redirect('home')
+
     except Profile.DoesNotExist:
         return redirect('home')
 
-    course = get_object_or_404(Course, id=course_id, teacher=request.user)
+    course = get_object_or_404(
+        Course,
+        id=course_id,
+        teacher=request.user
+    )
 
     if request.method == 'POST':
         course.delete()
@@ -430,12 +606,18 @@ def export_courses_csv(request):
         'course_title',
         'teacher_username',
         'teacher_email',
+        'category',
+        'level',
         'price',
         'description',
+        'is_published',
         'created_at',
     ])
 
-    courses = Course.objects.select_related('teacher').all()
+    courses = Course.objects.select_related(
+        'teacher',
+        'category'
+    ).all()
 
     for course in courses:
         writer.writerow([
@@ -443,8 +625,11 @@ def export_courses_csv(request):
             course.title,
             course.teacher.username,
             course.teacher.email,
+            course.category.name if course.category else '',
+            course.get_level_display(),
             course.price,
             course.description,
+            course.is_published,
             course.created_at,
         ])
 
@@ -469,7 +654,11 @@ def export_enrollments_csv(request):
         'purchased_at',
     ])
 
-    enrollments = Enrollment.objects.select_related('student', 'course', 'course__teacher').all()
+    enrollments = Enrollment.objects.select_related(
+        'student',
+        'course',
+        'course__teacher'
+    ).all()
 
     for enrollment in enrollments:
         writer.writerow([
@@ -500,11 +689,17 @@ def export_learning_records_csv(request):
         'course_id',
         'course_title',
         'teacher_username',
+        'lesson_title',
         'minutes',
         'watched_at',
     ])
 
-    records = LearningRecord.objects.select_related('user', 'course', 'course__teacher').all()
+    records = LearningRecord.objects.select_related(
+        'user',
+        'course',
+        'course__teacher',
+        'lesson'
+    ).all()
 
     for record in records:
         writer.writerow([
@@ -514,6 +709,7 @@ def export_learning_records_csv(request):
             record.course.id,
             record.course.title,
             record.course.teacher.username,
+            record.lesson.title if record.lesson else '',
             record.minutes,
             record.watched_at,
         ])

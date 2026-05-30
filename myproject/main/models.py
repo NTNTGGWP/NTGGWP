@@ -20,9 +20,35 @@ class Profile(models.Model):
         verbose_name_plural = "使用者資料"
 
 
+class CourseCategory(models.Model):
+    name = models.CharField(max_length=100, unique=True, verbose_name="分類名稱")
+    description = models.TextField(blank=True, null=True, verbose_name="分類說明")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="建立時間")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "課程分類"
+        verbose_name_plural = "課程分類"
+
+
 class Course(models.Model):
+    LEVEL_CHOICES = [
+        ('beginner', '初階'),
+        ('intermediate', '中階'),
+        ('advanced', '高階'),
+    ]
+
     title = models.CharField(max_length=200, verbose_name="課程名稱")
     teacher = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="講師")
+    category = models.ForeignKey(
+        CourseCategory,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        verbose_name="課程分類"
+    )
     price = models.IntegerField(verbose_name="價格")
     description = models.TextField(verbose_name="課程介紹")
     image = models.ImageField(
@@ -31,6 +57,13 @@ class Course(models.Model):
         blank=True,
         null=True
     )
+    level = models.CharField(
+        max_length=20,
+        choices=LEVEL_CHOICES,
+        default='beginner',
+        verbose_name="課程難度"
+    )
+    is_published = models.BooleanField(default=True, verbose_name="是否上架")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="建立時間")
 
     def __str__(self):
@@ -39,6 +72,51 @@ class Course(models.Model):
     class Meta:
         verbose_name = "課程"
         verbose_name_plural = "課程管理"
+
+
+class CourseChapter(models.Model):
+    course = models.ForeignKey(
+        Course,
+        on_delete=models.CASCADE,
+        related_name="chapters",
+        verbose_name="課程"
+    )
+    title = models.CharField(max_length=200, verbose_name="章節名稱")
+    description = models.TextField(blank=True, null=True, verbose_name="章節說明")
+    sort_order = models.PositiveIntegerField(default=1, verbose_name="章節順序")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="建立時間")
+
+    def __str__(self):
+        return f"{self.course.title} - {self.title}"
+
+    class Meta:
+        verbose_name = "課程章節"
+        verbose_name_plural = "課程章節"
+        ordering = ['course', 'sort_order']
+
+
+class CourseLesson(models.Model):
+    chapter = models.ForeignKey(
+        CourseChapter,
+        on_delete=models.CASCADE,
+        related_name="lessons",
+        verbose_name="章節"
+    )
+    title = models.CharField(max_length=200, verbose_name="單元名稱")
+    content = models.TextField(blank=True, null=True, verbose_name="單元內容")
+    video_url = models.URLField(blank=True, null=True, verbose_name="影片連結")
+    duration_minutes = models.PositiveIntegerField(default=0, verbose_name="影片分鐘數")
+    sort_order = models.PositiveIntegerField(default=1, verbose_name="單元順序")
+    is_free_preview = models.BooleanField(default=False, verbose_name="是否免費試看")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="建立時間")
+
+    def __str__(self):
+        return f"{self.chapter.title} - {self.title}"
+
+    class Meta:
+        verbose_name = "課程單元"
+        verbose_name_plural = "課程單元"
+        ordering = ['chapter', 'sort_order']
 
 
 class Enrollment(models.Model):
@@ -58,6 +136,13 @@ class Enrollment(models.Model):
 class LearningRecord(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="使用者")
     course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name="課程")
+    lesson = models.ForeignKey(
+        CourseLesson,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        verbose_name="觀看單元"
+    )
     minutes = models.PositiveIntegerField(default=30, verbose_name="觀看分鐘數")
     watched_at = models.DateTimeField(auto_now_add=True, verbose_name="觀看時間")
 
@@ -128,14 +213,103 @@ class Coupon(models.Model):
         verbose_name_plural = "優惠券管理"
 
 
+class UserCoupon(models.Model):
+    STATUS_CHOICES = [
+        ('unused', '未使用'),
+        ('used', '已使用'),
+        ('expired', '已過期'),
+    ]
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="使用者")
+    coupon = models.ForeignKey(Coupon, on_delete=models.CASCADE, verbose_name="優惠券")
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default='unused',
+        verbose_name="使用狀態"
+    )
+    received_at = models.DateTimeField(auto_now_add=True, verbose_name="領取時間")
+    used_at = models.DateTimeField(blank=True, null=True, verbose_name="使用時間")
+
+    def __str__(self):
+        return f"{self.user.username} - {self.coupon.code} - {self.get_status_display()}"
+
+    class Meta:
+        verbose_name = "使用者優惠券"
+        verbose_name_plural = "使用者優惠券"
+
+
+class Promotion(models.Model):
+    name = models.CharField(max_length=100, verbose_name="促銷活動名稱")
+    description = models.TextField(blank=True, null=True, verbose_name="活動說明")
+    discount_type = models.CharField(
+        max_length=20,
+        choices=Coupon.DISCOUNT_TYPE_CHOICES,
+        verbose_name="折扣類型"
+    )
+    discount_value = models.PositiveIntegerField(verbose_name="折扣數值")
+    start_date = models.DateTimeField(verbose_name="開始時間")
+    end_date = models.DateTimeField(verbose_name="結束時間")
+    is_active = models.BooleanField(default=True, verbose_name="是否啟用")
+    courses = models.ManyToManyField(Course, blank=True, verbose_name="適用課程")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="建立時間")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "促銷活動"
+        verbose_name_plural = "促銷活動"
+
+
+class Cart(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name="使用者")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="建立時間")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="更新時間")
+
+    def __str__(self):
+        return f"{self.user.username} 的購物車"
+
+    class Meta:
+        verbose_name = "購物車"
+        verbose_name_plural = "購物車"
+
+
+class CartItem(models.Model):
+    cart = models.ForeignKey(
+        Cart,
+        on_delete=models.CASCADE,
+        related_name="items",
+        verbose_name="購物車"
+    )
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name="課程")
+    added_at = models.DateTimeField(auto_now_add=True, verbose_name="加入時間")
+
+    def __str__(self):
+        return f"{self.cart.user.username} - {self.course.title}"
+
+    class Meta:
+        verbose_name = "購物車明細"
+        verbose_name_plural = "購物車明細"
+        unique_together = ('cart', 'course')
+
+
 class Order(models.Model):
     STATUS_CHOICES = [
+        ('pending', '待付款'),
         ('paid', '已付款'),
         ('cancelled', '已取消'),
+        ('refunded', '已退款'),
     ]
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="購買者")
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name="課程")
+    course = models.ForeignKey(
+        Course,
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+        verbose_name="課程"
+    )
     coupon = models.ForeignKey(
         Coupon,
         on_delete=models.SET_NULL,
@@ -155,11 +329,30 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="建立時間")
 
     def __str__(self):
-        return f"{self.user.username} - {self.course.title} - NT$ {self.final_price}"
+        course_title = self.course.title if self.course else "多課程訂單"
+        return f"{self.user.username} - {course_title} - NT$ {self.final_price}"
 
     class Meta:
         verbose_name = "訂單"
         verbose_name_plural = "訂單管理"
+
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(
+        Order,
+        on_delete=models.CASCADE,
+        related_name="items",
+        verbose_name="訂單"
+    )
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name="課程")
+    price = models.PositiveIntegerField(verbose_name="購買當下價格")
+
+    def __str__(self):
+        return f"{self.order.id} - {self.course.title}"
+
+    class Meta:
+        verbose_name = "訂單明細"
+        verbose_name_plural = "訂單明細"
 
 
 class CouponUsage(models.Model):
@@ -180,3 +373,209 @@ class CouponUsage(models.Model):
     class Meta:
         verbose_name = "優惠券使用紀錄"
         verbose_name_plural = "優惠券使用紀錄"
+
+
+class Payment(models.Model):
+    PAYMENT_METHOD_CHOICES = [
+        ('credit_card', '信用卡'),
+        ('atm', 'ATM轉帳'),
+        ('line_pay', 'LINE Pay'),
+        ('cash', '現金'),
+        ('mock', '模擬付款'),
+    ]
+
+    STATUS_CHOICES = [
+        ('pending', '待付款'),
+        ('paid', '付款成功'),
+        ('failed', '付款失敗'),
+        ('refunded', '已退款'),
+    ]
+
+    order = models.ForeignKey(
+        Order,
+        on_delete=models.CASCADE,
+        related_name="payments",
+        verbose_name="訂單"
+    )
+    method = models.CharField(
+        max_length=30,
+        choices=PAYMENT_METHOD_CHOICES,
+        default='mock',
+        verbose_name="付款方式"
+    )
+    amount = models.PositiveIntegerField(verbose_name="付款金額")
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default='paid',
+        verbose_name="付款狀態"
+    )
+    transaction_no = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+        verbose_name="交易編號"
+    )
+    paid_at = models.DateTimeField(blank=True, null=True, verbose_name="付款時間")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="建立時間")
+
+    def __str__(self):
+        return f"訂單 {self.order.id} - NT$ {self.amount} - {self.get_status_display()}"
+
+    class Meta:
+        verbose_name = "付款紀錄"
+        verbose_name_plural = "付款紀錄"
+
+
+class Refund(models.Model):
+    STATUS_CHOICES = [
+        ('pending', '退款審核中'),
+        ('approved', '退款通過'),
+        ('rejected', '退款拒絕'),
+        ('completed', '退款完成'),
+    ]
+
+    order = models.ForeignKey(
+        Order,
+        on_delete=models.CASCADE,
+        related_name="refunds",
+        verbose_name="訂單"
+    )
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="申請者")
+    amount = models.PositiveIntegerField(verbose_name="退款金額")
+    reason = models.TextField(verbose_name="退款原因")
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default='pending',
+        verbose_name="退款狀態"
+    )
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="申請時間")
+    processed_at = models.DateTimeField(blank=True, null=True, verbose_name="處理時間")
+
+    def __str__(self):
+        return f"{self.user.username} - 訂單 {self.order.id} - {self.get_status_display()}"
+
+    class Meta:
+        verbose_name = "退款紀錄"
+        verbose_name_plural = "退款紀錄"
+
+
+class Favorite(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="使用者")
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name="課程")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="收藏時間")
+
+    def __str__(self):
+        return f"{self.user.username} 收藏 {self.course.title}"
+
+    class Meta:
+        verbose_name = "收藏課程"
+        verbose_name_plural = "收藏課程"
+        unique_together = ('user', 'course')
+
+
+class Review(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="評論者")
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name="課程")
+    rating = models.PositiveSmallIntegerField(default=5, verbose_name="評分")
+    comment = models.TextField(blank=True, null=True, verbose_name="評論內容")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="評論時間")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="更新時間")
+
+    def __str__(self):
+        return f"{self.user.username} - {self.course.title} - {self.rating} 星"
+
+    class Meta:
+        verbose_name = "課程評價"
+        verbose_name_plural = "課程評價"
+        unique_together = ('user', 'course')
+
+
+class Notification(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="接收者")
+    title = models.CharField(max_length=200, verbose_name="通知標題")
+    content = models.TextField(verbose_name="通知內容")
+    is_read = models.BooleanField(default=False, verbose_name="是否已讀")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="建立時間")
+
+    def __str__(self):
+        return f"{self.user.username} - {self.title}"
+
+    class Meta:
+        verbose_name = "通知"
+        verbose_name_plural = "通知"
+
+
+class CourseQuestion(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="提問者")
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name="課程")
+    lesson = models.ForeignKey(
+        CourseLesson,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        verbose_name="相關單元"
+    )
+    title = models.CharField(max_length=200, verbose_name="問題標題")
+    content = models.TextField(verbose_name="問題內容")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="提問時間")
+
+    def __str__(self):
+        return f"{self.course.title} - {self.title}"
+
+    class Meta:
+        verbose_name = "課程問答"
+        verbose_name_plural = "課程問答"
+
+
+class CourseAnswer(models.Model):
+    question = models.ForeignKey(
+        CourseQuestion,
+        on_delete=models.CASCADE,
+        related_name="answers",
+        verbose_name="問題"
+    )
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="回答者")
+    content = models.TextField(verbose_name="回答內容")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="回答時間")
+
+    def __str__(self):
+        return f"{self.question.title} - {self.user.username}"
+
+    class Meta:
+        verbose_name = "課程回答"
+        verbose_name_plural = "課程回答"
+
+
+class CourseAudit(models.Model):
+    STATUS_CHOICES = [
+        ('pending', '待審核'),
+        ('approved', '審核通過'),
+        ('rejected', '審核退回'),
+    ]
+
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name="課程")
+    reviewer = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        verbose_name="審核人員"
+    )
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default='pending',
+        verbose_name="審核狀態"
+    )
+    comment = models.TextField(blank=True, null=True, verbose_name="審核意見")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="送審時間")
+    reviewed_at = models.DateTimeField(blank=True, null=True, verbose_name="審核時間")
+
+    def __str__(self):
+        return f"{self.course.title} - {self.get_status_display()}"
+
+    class Meta:
+        verbose_name = "課程審核"
+        verbose_name_plural = "課程審核"
