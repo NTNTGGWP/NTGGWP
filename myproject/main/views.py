@@ -1,4 +1,5 @@
 ﻿import csv
+import json
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
@@ -8,6 +9,7 @@ from django.db.models import Sum, Avg
 
 from .models import (
     Course,
+    CourseLesson,
     Profile,
     Enrollment,
     LearningRecord,
@@ -579,6 +581,126 @@ def delete_course(request, course_id):
 
 
 @login_required
+def student_analytics(request):
+    try:
+        profile = request.user.profile
+        if profile.role != 'student':
+            return redirect('home')
+    except Profile.DoesNotExist:
+        return redirect('home')
+
+    total_minutes = LearningRecord.objects.filter(
+        user=request.user
+    ).aggregate(
+        total=Sum('minutes')
+    )['total'] or 0
+
+    purchased_count = Enrollment.objects.filter(
+        student=request.user
+    ).count()
+
+    course_minutes_data = LearningRecord.objects.filter(
+        user=request.user
+    ).values(
+        'course__title'
+    ).annotate(
+        total=Sum('minutes')
+    ).order_by('-total')
+
+    course_labels = [item['course__title'] for item in course_minutes_data]
+    course_minutes = [item['total'] for item in course_minutes_data]
+
+    recent_records = LearningRecord.objects.filter(
+        user=request.user
+    ).select_related(
+        'course',
+        'lesson'
+    ).order_by('-watched_at')[:10]
+
+    return render(request, 'main/student_analytics.html', {
+        'total_minutes': total_minutes,
+        'purchased_count': purchased_count,
+        'course_labels_json': json.dumps(course_labels, ensure_ascii=False),
+        'course_minutes_json': json.dumps(course_minutes),
+        'recent_records': recent_records,
+    })
+
+
+@login_required
+def teacher_analytics(request):
+    try:
+        profile = request.user.profile
+        if profile.role != 'teacher':
+            return redirect('home')
+    except Profile.DoesNotExist:
+        return redirect('home')
+
+    teacher_courses = Course.objects.filter(
+        teacher=request.user
+    )
+
+    total_revenue = Order.objects.filter(
+        course__teacher=request.user,
+        status='paid'
+    ).aggregate(
+        total=Sum('final_price')
+    )['total'] or 0
+
+    total_purchase_count = Enrollment.objects.filter(
+        course__teacher=request.user
+    ).count()
+
+    total_watch_minutes = LearningRecord.objects.filter(
+        course__teacher=request.user
+    ).aggregate(
+        total=Sum('minutes')
+    )['total'] or 0
+
+    course_labels = []
+    purchase_counts = []
+    revenue_data = []
+    watch_minutes_data = []
+    rating_data = []
+
+    for course in teacher_courses:
+        purchase_count = Enrollment.objects.filter(course=course).count()
+
+        revenue = Order.objects.filter(
+            course=course,
+            status='paid'
+        ).aggregate(
+            total=Sum('final_price')
+        )['total'] or 0
+
+        watch_minutes = LearningRecord.objects.filter(
+            course=course
+        ).aggregate(
+            total=Sum('minutes')
+        )['total'] or 0
+
+        avg_rating = Review.objects.filter(
+            course=course
+        ).aggregate(
+            avg=Avg('rating')
+        )['avg'] or 0
+
+        course_labels.append(course.title)
+        purchase_counts.append(purchase_count)
+        revenue_data.append(revenue)
+        watch_minutes_data.append(watch_minutes)
+        rating_data.append(round(avg_rating, 1))
+
+    return render(request, 'main/teacher_analytics.html', {
+        'total_revenue': total_revenue,
+        'total_purchase_count': total_purchase_count,
+        'total_watch_minutes': total_watch_minutes,
+        'course_labels_json': json.dumps(course_labels, ensure_ascii=False),
+        'purchase_counts_json': json.dumps(purchase_counts),
+        'revenue_data_json': json.dumps(revenue_data),
+        'watch_minutes_data_json': json.dumps(watch_minutes_data),
+        'rating_data_json': json.dumps(rating_data),
+    })
+@login_required
 def export_data_page(request):
     if not request.user.is_superuser:
         return redirect('home')
@@ -742,6 +864,256 @@ def export_profiles_csv(request):
             profile.user.email,
             profile.role,
             profile.get_role_display(),
+        ])
+
+    return response
+
+@login_required
+def export_orders_csv(request):
+    if not request.user.is_superuser:
+        return redirect('home')
+
+    response = create_csv_response('orders.csv')
+    writer = csv.writer(response)
+
+    writer.writerow([
+        'order_id',
+        'username',
+        'email',
+        'course_id',
+        'course_title',
+        'coupon_code',
+        'original_price',
+        'discount_amount',
+        'final_price',
+        'status',
+        'created_at',
+    ])
+
+    orders = Order.objects.select_related(
+        'user',
+        'course',
+        'coupon'
+    ).all()
+
+    for order in orders:
+        writer.writerow([
+            order.id,
+            order.user.username,
+            order.user.email,
+            order.course.id if order.course else '',
+            order.course.title if order.course else '',
+            order.coupon.code if order.coupon else '',
+            order.original_price,
+            order.discount_amount,
+            order.final_price,
+            order.status,
+            order.created_at,
+        ])
+
+    return response
+
+
+@login_required
+def export_order_items_csv(request):
+    if not request.user.is_superuser:
+        return redirect('home')
+
+    response = create_csv_response('order_items.csv')
+    writer = csv.writer(response)
+
+    writer.writerow([
+        'order_item_id',
+        'order_id',
+        'username',
+        'course_id',
+        'course_title',
+        'teacher_username',
+        'price',
+    ])
+
+    items = OrderItem.objects.select_related(
+        'order',
+        'order__user',
+        'course',
+        'course__teacher'
+    ).all()
+
+    for item in items:
+        writer.writerow([
+            item.id,
+            item.order.id,
+            item.order.user.username,
+            item.course.id,
+            item.course.title,
+            item.course.teacher.username,
+            item.price,
+        ])
+
+    return response
+
+
+@login_required
+def export_payments_csv(request):
+    if not request.user.is_superuser:
+        return redirect('home')
+
+    response = create_csv_response('payments.csv')
+    writer = csv.writer(response)
+
+    writer.writerow([
+        'payment_id',
+        'order_id',
+        'username',
+        'method',
+        'amount',
+        'status',
+        'transaction_no',
+        'paid_at',
+        'created_at',
+    ])
+
+    payments = Payment.objects.select_related(
+        'order',
+        'order__user'
+    ).all()
+
+    for payment in payments:
+        writer.writerow([
+            payment.id,
+            payment.order.id,
+            payment.order.user.username,
+            payment.method,
+            payment.amount,
+            payment.status,
+            payment.transaction_no,
+            payment.paid_at,
+            payment.created_at,
+        ])
+
+    return response
+
+
+@login_required
+def export_coupon_usage_csv(request):
+    if not request.user.is_superuser:
+        return redirect('home')
+
+    response = create_csv_response('coupon_usage.csv')
+    writer = csv.writer(response)
+
+    writer.writerow([
+        'coupon_usage_id',
+        'username',
+        'coupon_code',
+        'coupon_name',
+        'order_id',
+        'discount_amount',
+        'used_at',
+    ])
+
+    usages = CouponUsage.objects.select_related(
+        'user',
+        'coupon',
+        'order'
+    ).all()
+
+    for usage in usages:
+        writer.writerow([
+            usage.id,
+            usage.user.username,
+            usage.coupon.code,
+            usage.coupon.name,
+            usage.order.id,
+            usage.discount_amount,
+            usage.used_at,
+        ])
+
+    return response
+
+
+@login_required
+def export_reviews_csv(request):
+    if not request.user.is_superuser:
+        return redirect('home')
+
+    response = create_csv_response('reviews.csv')
+    writer = csv.writer(response)
+
+    writer.writerow([
+        'review_id',
+        'username',
+        'email',
+        'course_id',
+        'course_title',
+        'teacher_username',
+        'rating',
+        'comment',
+        'created_at',
+        'updated_at',
+    ])
+
+    reviews = Review.objects.select_related(
+        'user',
+        'course',
+        'course__teacher'
+    ).all()
+
+    for review in reviews:
+        writer.writerow([
+            review.id,
+            review.user.username,
+            review.user.email,
+            review.course.id,
+            review.course.title,
+            review.course.teacher.username,
+            review.rating,
+            review.comment,
+            review.created_at,
+            review.updated_at,
+        ])
+
+    return response
+
+
+@login_required
+def export_course_lessons_csv(request):
+    if not request.user.is_superuser:
+        return redirect('home')
+
+    response = create_csv_response('course_lessons.csv')
+    writer = csv.writer(response)
+
+    writer.writerow([
+        'lesson_id',
+        'course_id',
+        'course_title',
+        'chapter_id',
+        'chapter_title',
+        'lesson_title',
+        'duration_minutes',
+        'is_free_preview',
+        'sort_order',
+        'created_at',
+    ])
+
+    lessons = CourseLesson.objects.select_related(
+        'chapter',
+        'chapter__course'
+    ).all()
+
+    for lesson in lessons:
+        writer.writerow([
+            lesson.id,
+            lesson.chapter.course.id,
+            lesson.chapter.course.title,
+            lesson.chapter.id,
+            lesson.chapter.title,
+            lesson.title,
+            lesson.duration_minutes,
+            lesson.is_free_preview,
+            lesson.sort_order,
+            lesson.created_at,
         ])
 
     return response

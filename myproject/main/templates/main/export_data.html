@@ -13,7 +13,7 @@
       }
 
       .container {
-        max-width: 900px;
+        max-width: 1000px;
         margin: 50px auto;
         padding: 20px;
       }
@@ -35,10 +35,17 @@
         line-height: 1.8;
       }
 
+      .section-title {
+        margin-top: 34px;
+        padding-top: 22px;
+        border-top: 1px solid #e5e7eb;
+      }
+
       .export-list {
         display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
         gap: 16px;
-        margin-top: 28px;
+        margin-top: 20px;
       }
 
       .export-item {
@@ -76,41 +83,81 @@
       <div class="card">
         <h1>Power BI 資料匯出</h1>
         <p>
-          這裡可以匯出專題目前的主要資料表，給 Power BI 做視覺化分析。
-          建議先下載 CSV，再匯入 Power BI Desktop。
+          這裡可以匯出平台資料表，提供 Power BI Desktop 建立視覺化報表。
+          建議依序下載所有 CSV，再匯入 Power BI。
         </p>
+
+        <h2 class="section-title">核心資料</h2>
 
         <div class="export-list">
           <div class="export-item">
             <h3>課程資料 courses.csv</h3>
-            <p>包含課程名稱、講師、價格、介紹與建立時間。</p>
-            <a href="{% url 'export_courses_csv' %}" class="btn"
-              >下載課程資料</a
-            >
+            <p>課程名稱、講師、分類、難度、價格與建立時間。</p>
+            <a href="{% url 'export_courses_csv' %}" class="btn">下載</a>
           </div>
 
           <div class="export-item">
             <h3>購課紀錄 enrollments.csv</h3>
-            <p>包含學生、課程、講師與購買時間，可分析課程銷售與購買趨勢。</p>
-            <a href="{% url 'export_enrollments_csv' %}" class="btn"
-              >下載購課紀錄</a
-            >
+            <p>學生購買課程紀錄，可分析課程銷售與購買趨勢。</p>
+            <a href="{% url 'export_enrollments_csv' %}" class="btn">下載</a>
           </div>
 
           <div class="export-item">
             <h3>學習紀錄 learning_records.csv</h3>
-            <p>包含觀看分鐘數與觀看時間，可分析學習時數與課程觀看熱度。</p>
+            <p>觀看分鐘數與觀看時間，可分析學習時數。</p>
             <a href="{% url 'export_learning_records_csv' %}" class="btn"
-              >下載學習紀錄</a
+              >下載</a
             >
           </div>
 
           <div class="export-item">
             <h3>使用者角色 profiles.csv</h3>
-            <p>包含使用者帳號、Email 與角色，可分析學生與老師分布。</p>
-            <a href="{% url 'export_profiles_csv' %}" class="btn"
-              >下載使用者資料</a
-            >
+            <p>使用者帳號、Email 與角色。</p>
+            <a href="{% url 'export_profiles_csv' %}" class="btn">下載</a>
+          </div>
+        </div>
+
+        <h2 class="section-title">交易與營收資料</h2>
+
+        <div class="export-list">
+          <div class="export-item">
+            <h3>訂單資料 orders.csv</h3>
+            <p>原價、折扣、實付金額與訂單狀態。</p>
+            <a href="{% url 'export_orders_csv' %}" class="btn">下載</a>
+          </div>
+
+          <div class="export-item">
+            <h3>訂單明細 order_items.csv</h3>
+            <p>每筆訂單購買的課程明細。</p>
+            <a href="{% url 'export_order_items_csv' %}" class="btn">下載</a>
+          </div>
+
+          <div class="export-item">
+            <h3>付款紀錄 payments.csv</h3>
+            <p>付款方式、付款金額、付款狀態與交易編號。</p>
+            <a href="{% url 'export_payments_csv' %}" class="btn">下載</a>
+          </div>
+
+          <div class="export-item">
+            <h3>優惠券使用 coupon_usage.csv</h3>
+            <p>優惠碼、使用者、訂單與折扣金額。</p>
+            <a href="{% url 'export_coupon_usage_csv' %}" class="btn">下載</a>
+          </div>
+        </div>
+
+        <h2 class="section-title">課程內容與評價資料</h2>
+
+        <div class="export-list">
+          <div class="export-item">
+            <h3>課程評價 reviews.csv</h3>
+            <p>學生評分與評論內容，可分析課程滿意度。</p>
+            <a href="{% url 'export_reviews_csv' %}" class="btn">下載</a>
+          </div>
+
+          <div class="export-item">
+            <h3>課程單元 course_lessons.csv</h3>
+            <p>課程章節、單元、影片分鐘數與免費試看狀態。</p>
+            <a href="{% url 'export_course_lessons_csv' %}" class="btn">下載</a>
           </div>
         </div>
 

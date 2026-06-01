@@ -14,11 +14,24 @@ urlpatterns = [
     path('course/<int:course_id>/edit/', views.edit_course, name='edit_course'),
     path('course/<int:course_id>/delete/', views.delete_course, name='delete_course'),
 
+    path('student/dashboard/', views.student_dashboard, name='student_dashboard'),
+    path('student/analytics/', views.student_analytics, name='student_analytics'),
+
+    path('teacher/dashboard/', views.teacher_dashboard, name='teacher_dashboard'),
+    path('teacher/analytics/', views.teacher_analytics, name='teacher_analytics'),
+
     path('export-data/', views.export_data_page, name='export_data_page'),
     path('export/courses.csv', views.export_courses_csv, name='export_courses_csv'),
     path('export/enrollments.csv', views.export_enrollments_csv, name='export_enrollments_csv'),
     path('export/learning-records.csv', views.export_learning_records_csv, name='export_learning_records_csv'),
     path('export/profiles.csv', views.export_profiles_csv, name='export_profiles_csv'),
+
+    path('export/orders.csv', views.export_orders_csv, name='export_orders_csv'),
+    path('export/order-items.csv', views.export_order_items_csv, name='export_order_items_csv'),
+    path('export/payments.csv', views.export_payments_csv, name='export_payments_csv'),
+    path('export/coupon-usage.csv', views.export_coupon_usage_csv, name='export_coupon_usage_csv'),
+    path('export/reviews.csv', views.export_reviews_csv, name='export_reviews_csv'),
+    path('export/course-lessons.csv', views.export_course_lessons_csv, name='export_course_lessons_csv'),
 
     path('register/', views.register, name='register'),
     path('register-success/', views.register_success, name='register_success'),
@@ -28,8 +41,6 @@ urlpatterns = [
     path('profile/', views.profile_view, name='profile'),
     path('my-courses/', views.my_courses, name='my_courses'),
 
-    path('student/dashboard/', views.student_dashboard, name='student_dashboard'),
-    path('teacher/dashboard/', views.teacher_dashboard, name='teacher_dashboard'),
     path('create-course/', views.create_course, name='create_course'),
 
     path('password-reset/', auth_views.PasswordResetView.as_view(
