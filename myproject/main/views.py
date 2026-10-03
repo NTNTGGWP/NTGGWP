@@ -1154,6 +1154,10 @@ def submit_quiz(request, quiz_id):
         attempt.score = round(correct / len(questions) * 100)
         attempt.save(update_fields=['correct_count', 'score'])
 
+        # 把這次作答的弱點（按知識點分組）落地，供學習診斷與 Power BI 使用
+        from . import ai_diagnosis
+        ai_diagnosis.diagnose_attempt(attempt)
+
     return redirect('quiz_result', attempt_id=attempt.id)
 
 @login_required

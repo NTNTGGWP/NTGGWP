@@ -32,12 +32,14 @@ QUESTIONS = [
         "options": ["admin.py", "settings.py", "manage.py", "views.py"],
         "correct_index": 2,
         "explanation": "manage.py 是 Django 專案執行管理指令的入口，例如 runserver 與 migrate。",
+        "topic_tag": "Django 專案指令",
     },
     {
         "question_text": "Django 常用的架構縮寫是什麼？",
         "options": ["MVC", "MVT", "MVVM", "REST"],
         "correct_index": 1,
         "explanation": "Django 通常以 Model、View、Template（MVT）描述其架構。",
+        "topic_tag": "Django 架構",
     },
     {
         "question_text": "Django Model 的主要用途是什麼？",
@@ -49,6 +51,7 @@ QUESTIONS = [
         ],
         "correct_index": 1,
         "explanation": "Model 定義欄位與關聯，並透過 ORM 讀寫資料庫。",
+        "topic_tag": "Django Model",
     },
     {
         "question_text": "Django URL routing 的主要工作是什麼？",
@@ -60,6 +63,7 @@ QUESTIONS = [
         ],
         "correct_index": 0,
         "explanation": "URLconf 會把符合的網址路徑交給指定的 view 處理。",
+        "topic_tag": "URL 路由",
     },
     {
         "question_text": "建立 migration 後，哪個指令會把變更套用到資料庫？",
@@ -71,6 +75,7 @@ QUESTIONS = [
         ],
         "correct_index": 2,
         "explanation": "migrate 會依 migration 檔案把資料表結構變更套用到資料庫。",
+        "topic_tag": "Django 專案指令",
     },
 ]
 
