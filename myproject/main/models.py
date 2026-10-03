@@ -1,10 +1,11 @@
+import uuid
+
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db.models import Sum
 from django.contrib.auth.models import User
 from django.utils import timezone
-
 
 class Profile(models.Model):
     ROLE_CHOICES = [
@@ -18,21 +19,20 @@ class Profile(models.Model):
         upload_to='avatars/', blank=True, null=True, verbose_name="大頭貼"
     )
 
-    # 快速登入（OAuth）綁定用的第三方帳號 ID
     google_id = models.CharField(
         max_length=255, unique=True, blank=True, null=True, verbose_name="Google 帳號 ID"
     )
     line_id = models.CharField(
         max_length=255, unique=True, blank=True, null=True, verbose_name="LINE 帳號 ID"
     )
+    microsoft_id = models.CharField(
+        max_length=255, unique=True, blank=True, null=True, verbose_name="Microsoft 帳號 ID"
+    )
 
-    # 單一帳號體系：is_teacher 由 Admin 後台賦予，具備教師權限後可在前台切換進教師專區，
-    # 與既有 role（學生/老師二選一）並存，兩者的整合會在後續 Phase 處理。
     is_teacher = models.BooleanField(default=False, verbose_name="具備教師權限")
 
     bio = models.TextField(blank=True, null=True, verbose_name="講師簡介")
 
-    # 講師頁形象：封面 banner、稱號與社群連結
     cover_image = models.ImageField(
         upload_to='teacher_covers/', blank=True, null=True, verbose_name="講師頁封面"
     )
@@ -51,14 +51,12 @@ class Profile(models.Model):
 
     @property
     def display_name(self):
-        """對外顯示名稱：姓+名（中文順序），沒填真實姓名時退回帳號名稱。"""
         full = f"{self.user.last_name}{self.user.first_name}".strip()
         return full or self.user.username
 
     class Meta:
         verbose_name = "使用者資料"
         verbose_name_plural = "使用者資料"
-
 
 class CourseCategory(models.Model):
     name = models.CharField(max_length=100, unique=True, verbose_name="分類名稱")
@@ -71,7 +69,6 @@ class CourseCategory(models.Model):
     class Meta:
         verbose_name = "課程分類"
         verbose_name_plural = "課程分類"
-
 
 class Course(models.Model):
     LEVEL_CHOICES = [
@@ -106,12 +103,10 @@ class Course(models.Model):
     is_published = models.BooleanField(default=True, verbose_name="是否上架")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="建立時間")
 
-    # 教師自訂折扣（任何課程皆可設定，不限募資課程）
     discount_price = models.PositiveIntegerField(
         blank=True, null=True, verbose_name="折扣價（選填，需低於原價）"
     )
 
-    # 募資開課
     is_crowdfunding = models.BooleanField(default=False, verbose_name="是否為募資課程")
     funding_goal = models.PositiveIntegerField(default=0, verbose_name="募資門檻人數")
     funding_start_date = models.DateTimeField(blank=True, null=True, verbose_name="募資開始時間")
@@ -120,14 +115,12 @@ class Course(models.Model):
         blank=True, null=True, verbose_name="早鳥優惠價（募資期間適用，需低於原價）"
     )
 
-    # 分潤設定：Admin 於建立/編輯課程時以拉桿設定教師分潤比例，平台分潤 = 100 - 教師分潤
     teacher_revenue_share = models.PositiveSmallIntegerField(
         default=70,
         validators=[MinValueValidator(0), MaxValueValidator(100)],
         verbose_name="教師分潤比例（%）"
     )
 
-    # 宣傳影片意向：教師於新課程需求單或課程設定中標示，供行政人員後續安排
     PROMO_VIDEO_TYPE_CHOICES = [
         ('NONE', '未設定'),
         ('PHYSICAL_SHOOT', '實體拍攝'),
@@ -140,20 +133,17 @@ class Course(models.Model):
         verbose_name="宣傳影片模式"
     )
 
-    # 課程資訊卡：開課時間 / 觀看期限（僅顯示用，不做到期強制下架）
     start_date = models.DateTimeField(blank=True, null=True, verbose_name="開課時間")
     access_duration_days = models.PositiveIntegerField(
         blank=True, null=True, verbose_name="觀看期限（天數，留空代表無限）"
     )
 
-    # 課程介紹影片（頁面主視覺用，與 promo_video_type 不同：這是實際公開的影片素材）
     intro_video_url = models.URLField(blank=True, null=True, verbose_name="課程介紹影片連結")
     intro_video_file = models.FileField(
         upload_to='course_intro_videos/', blank=True, null=True, verbose_name="課程介紹影片檔"
     )
 
     def platform_revenue_share(self):
-        """平台分潤比例（%），為 100 減去教師分潤比例。"""
         return 100 - self.teacher_revenue_share
 
     def __str__(self):
@@ -183,7 +173,6 @@ class Course(models.Model):
         return max(0, delta.days)
 
     def get_effective_price(self):
-        """目前實際售價：募資期間內優先用早鳥價，其次一般折扣價，否則原價。"""
         if self.is_crowdfunding and self.is_funding_active() and self.early_bird_price and self.early_bird_price < self.price:
             return self.early_bird_price
         if self.discount_price and self.discount_price < self.price:
@@ -196,7 +185,6 @@ class Course(models.Model):
     class Meta:
         verbose_name = "課程"
         verbose_name_plural = "課程管理"
-
 
 class CourseChapter(models.Model):
     course = models.ForeignKey(
@@ -217,7 +205,6 @@ class CourseChapter(models.Model):
         verbose_name = "課程章節"
         verbose_name_plural = "課程章節"
         ordering = ['course', 'sort_order']
-
 
 class CourseLesson(models.Model):
     chapter = models.ForeignKey(
@@ -248,9 +235,7 @@ class CourseLesson(models.Model):
         verbose_name_plural = "課程單元"
         ordering = ['chapter', 'sort_order']
 
-
 class LessonMaterial(models.Model):
-    """單元教材：掛在單元底下的可下載檔案（簡報、練習範例、延伸閱讀等）。"""
     TYPE_CHOICES = [
         ('slides', '簡報'),
         ('practice', '練習檔'),
@@ -275,7 +260,6 @@ class LessonMaterial(models.Model):
         return os.path.basename(self.file.name)
 
     def icon_class(self):
-        """依副檔名回傳 Font Awesome 圖示 class。"""
         name = self.filename().lower()
         ext = name.rsplit('.', 1)[-1] if '.' in name else ''
         return {
@@ -290,7 +274,6 @@ class LessonMaterial(models.Model):
         }.get(ext, 'fa-file')
 
     def size_display(self):
-        """人類可讀的檔案大小（用存好的 size_bytes，不即時打 S3）。"""
         b = self.size_bytes or 0
         if b <= 0:
             return ''
@@ -308,9 +291,7 @@ class LessonMaterial(models.Model):
         verbose_name_plural = "單元教材"
         ordering = ['lesson', 'sort_order', 'id']
 
-
 class CourseBundle(models.Model):
-    """合購優惠組合：Admin 指定數門課程以合購價一起販售。"""
     name = models.CharField(max_length=200, verbose_name="合購名稱")
     description = models.TextField(blank=True, null=True, verbose_name="合購說明")
     courses = models.ManyToManyField(Course, related_name="bundles", verbose_name="包含課程")
@@ -331,7 +312,6 @@ class CourseBundle(models.Model):
         verbose_name = "合購優惠組合"
         verbose_name_plural = "合購優惠組合"
 
-
 class Enrollment(models.Model):
     student = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="學生")
     course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name="課程")
@@ -344,7 +324,6 @@ class Enrollment(models.Model):
         verbose_name = "購課紀錄"
         verbose_name_plural = "購課紀錄"
         unique_together = ('student', 'course')
-
 
 class LearningRecord(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="使用者")
@@ -366,13 +345,10 @@ class LearningRecord(models.Model):
         verbose_name = "學習紀錄"
         verbose_name_plural = "學習紀錄"
 
-
 class LessonProgress(models.Model):
-    """單元觀看進度：累積實際看過的秒數 + 續看位置（跨次保留）。"""
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="使用者")
     course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name="課程")
     lesson = models.ForeignKey(CourseLesson, on_delete=models.CASCADE, verbose_name="單元")
-    # 每一秒是否看過的 bitmap（'0'/'1'），跨次累積、快轉跳過的秒不會被算入
     watched_map = models.TextField(blank=True, default='', verbose_name="已觀看秒圖")
     watched_seconds = models.PositiveIntegerField(default=0, verbose_name="累積觀看秒數")
     last_position = models.PositiveIntegerField(default=0, verbose_name="上次觀看位置(秒)")
@@ -393,6 +369,45 @@ class LessonProgress(models.Model):
         verbose_name_plural = "單元觀看進度"
         unique_together = ('user', 'lesson')
 
+
+class CourseCertificate(models.Model):
+    certificate_number = models.UUIDField(
+        default=uuid.uuid4,
+        unique=True,
+        editable=False,
+        verbose_name="證書編號",
+    )
+    student = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="course_certificates",
+        verbose_name="學生",
+    )
+    course = models.ForeignKey(
+        Course,
+        on_delete=models.CASCADE,
+        related_name="certificates",
+        verbose_name="課程",
+    )
+    issued_at = models.DateTimeField(auto_now_add=True, verbose_name="核發時間")
+
+    @property
+    def display_number(self):
+        return f"EDUFLOW-{str(self.certificate_number).upper()}"
+
+    def __str__(self):
+        return f"{self.student.username} - {self.course.title} - {self.display_number}"
+
+    class Meta:
+        verbose_name = "課程結業證書"
+        verbose_name_plural = "課程結業證書"
+        ordering = ('-issued_at',)
+        constraints = [
+            models.UniqueConstraint(
+                fields=('student', 'course'),
+                name='unique_student_course_certificate',
+            ),
+        ]
 
 class Coupon(models.Model):
     DISCOUNT_TYPE_CHOICES = [
@@ -436,7 +451,6 @@ class Coupon(models.Model):
         return timezone.now() > self.end_date
 
     def status_label(self):
-        """後台/前台顯示用的目前狀態文字。"""
         now = timezone.now()
         if not self.is_active:
             return '已停用'
@@ -449,11 +463,6 @@ class Coupon(models.Model):
         return '使用中'
 
     def discount_for(self, price):
-        """純計算折扣金額，不檢查券是否有效。
-
-        有效性由呼叫端負責（見 checkout.quote_basket），因為 is_valid_now()
-        會查資料庫，而定價計算必須能在沒有資料庫的情況下被測。
-        """
         if price < self.min_spend:
             return 0
 
@@ -467,7 +476,6 @@ class Coupon(models.Model):
         return min(discount, price)
 
     def calculate_discount(self, price):
-        # 期限/啟用/使用次數任一不符 → 一律 0 折扣（防止過期券被折抵）
         if not self.is_valid_now():
             return 0
         return self.discount_for(price)
@@ -475,7 +483,6 @@ class Coupon(models.Model):
     class Meta:
         verbose_name = "優惠券"
         verbose_name_plural = "優惠券管理"
-
 
 class UserCoupon(models.Model):
     STATUS_CHOICES = [
@@ -496,7 +503,6 @@ class UserCoupon(models.Model):
     used_at = models.DateTimeField(blank=True, null=True, verbose_name="使用時間")
 
     def effective_status(self):
-        """顯示用：尚未使用但券已過期 → 顯示已過期。"""
         if self.status == 'unused' and self.coupon.is_expired():
             return '已過期'
         return self.get_status_display()
@@ -507,7 +513,6 @@ class UserCoupon(models.Model):
     class Meta:
         verbose_name = "使用者優惠券"
         verbose_name_plural = "使用者優惠券"
-
 
 class Promotion(models.Model):
     name = models.CharField(max_length=100, verbose_name="促銷活動名稱")
@@ -532,11 +537,6 @@ class Promotion(models.Model):
         return self.is_active and self.start_date <= now <= self.end_date
 
     def discount_for(self, price):
-        """純計算折扣金額，作用於售價。不檢查活動是否在期間內。
-
-        期間判定由呼叫端負責（見 checkout._active_promotion_map，那裡用
-        資料庫過濾一次撈完，避免逐課查詢）。
-        """
         if self.discount_type == 'amount':
             discount = self.discount_value
         elif self.discount_type == 'percent':
@@ -544,13 +544,11 @@ class Promotion(models.Model):
         else:
             discount = 0
 
-        # 夾住上限：discount_value 設成 150（%）也不會折出負數金額
         return min(discount, price)
 
     class Meta:
         verbose_name = "促銷活動"
         verbose_name_plural = "促銷活動"
-
 
 class Cart(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name="使用者")
@@ -563,7 +561,6 @@ class Cart(models.Model):
     class Meta:
         verbose_name = "購物車"
         verbose_name_plural = "購物車"
-
 
 class CartItem(models.Model):
     cart = models.ForeignKey(
@@ -586,7 +583,6 @@ class CartItem(models.Model):
         verbose_name = "購物車明細"
         verbose_name_plural = "購物車明細"
         unique_together = ('cart', 'course')
-
 
 class Order(models.Model):
     STATUS_CHOICES = [
@@ -617,7 +613,7 @@ class Order(models.Model):
     status = models.CharField(
         max_length=20,
         choices=STATUS_CHOICES,
-        default='paid',
+        default='pending',
         verbose_name="訂單狀態"
     )
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="建立時間")
@@ -629,7 +625,6 @@ class Order(models.Model):
     class Meta:
         verbose_name = "訂單"
         verbose_name_plural = "訂單管理"
-
 
 class OrderItem(models.Model):
     order = models.ForeignKey(
@@ -650,7 +645,6 @@ class OrderItem(models.Model):
         verbose_name = "訂單明細"
         verbose_name_plural = "訂單明細"
 
-
 class CouponUsage(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="使用者")
     coupon = models.ForeignKey(
@@ -669,7 +663,6 @@ class CouponUsage(models.Model):
     class Meta:
         verbose_name = "優惠券使用紀錄"
         verbose_name_plural = "優惠券使用紀錄"
-
 
 class Payment(models.Model):
     PAYMENT_METHOD_CHOICES = [
@@ -704,7 +697,7 @@ class Payment(models.Model):
     status = models.CharField(
         max_length=20,
         choices=STATUS_CHOICES,
-        default='paid',
+        default='pending',
         verbose_name="付款狀態"
     )
     transaction_no = models.CharField(
@@ -713,7 +706,6 @@ class Payment(models.Model):
         null=True,
         verbose_name="交易編號"
     )
-    # 模擬金流用（未來串接真金流時由 gateway 回傳填入）
     virtual_account = models.CharField(
         max_length=30, blank=True, null=True, verbose_name="ATM 虛擬帳號"
     )
@@ -730,7 +722,6 @@ class Payment(models.Model):
     class Meta:
         verbose_name = "付款紀錄"
         verbose_name_plural = "付款紀錄"
-
 
 class Refund(models.Model):
     STATUS_CHOICES = [
@@ -765,7 +756,6 @@ class Refund(models.Model):
         verbose_name = "退款紀錄"
         verbose_name_plural = "退款紀錄"
 
-
 class Favorite(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="使用者")
     course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name="課程")
@@ -778,7 +768,6 @@ class Favorite(models.Model):
         verbose_name = "收藏課程"
         verbose_name_plural = "收藏課程"
         unique_together = ('user', 'course')
-
 
 class Review(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="評論者")
@@ -796,7 +785,6 @@ class Review(models.Model):
         verbose_name_plural = "課程評價"
         unique_together = ('user', 'course')
 
-
 class Notification(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="接收者")
     title = models.CharField(max_length=200, verbose_name="通知標題")
@@ -810,7 +798,6 @@ class Notification(models.Model):
     class Meta:
         verbose_name = "通知"
         verbose_name_plural = "通知"
-
 
 class CourseQuestion(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="提問者")
@@ -833,7 +820,6 @@ class CourseQuestion(models.Model):
         verbose_name = "課程問答"
         verbose_name_plural = "課程問答"
 
-
 class CourseAnswer(models.Model):
     question = models.ForeignKey(
         CourseQuestion,
@@ -853,9 +839,7 @@ class CourseAnswer(models.Model):
         verbose_name = "課程回答"
         verbose_name_plural = "課程回答"
 
-
 class CourseAnnouncement(models.Model):
-    """課程公告：教師（本人課程）或 Admin 可發布，僅已購買學員/該課程教師/Admin 看得到。"""
     course = models.ForeignKey(
         Course, on_delete=models.CASCADE, related_name="announcements", verbose_name="課程"
     )
@@ -872,9 +856,7 @@ class CourseAnnouncement(models.Model):
         verbose_name_plural = "課程公告"
         ordering = ['-created_at']
 
-
 class CourseComment(models.Model):
-    """課程留言區：開放任何登入使用者留言，與需購買才能發問的課程問答區區隔。"""
     course = models.ForeignKey(
         Course, on_delete=models.CASCADE, related_name="comments", verbose_name="課程"
     )
@@ -889,7 +871,6 @@ class CourseComment(models.Model):
         verbose_name = "課程留言"
         verbose_name_plural = "課程留言"
         ordering = ['-created_at']
-
 
 class CourseAudit(models.Model):
     STATUS_CHOICES = [
@@ -923,16 +904,7 @@ class CourseAudit(models.Model):
         verbose_name = "課程審核"
         verbose_name_plural = "課程審核"
 
-
-# =========================
-# 分潤、收支與提領
-# =========================
-
 class CourseSplitSetting(models.Model):
-    """課程分潤設定：講師／公司的營收分潤比例，以及行銷成本負擔比例。
-
-    每堂課最多一筆；未自訂過的課程一律套用預設值（見 for_course）。
-    """
     DEFAULT_TEACHER_SPLIT_PERCENT = 70
     DEFAULT_COMPANY_SPLIT_PERCENT = 30
     DEFAULT_TEACHER_MARKETING_SHARE_PERCENT = 50
@@ -966,7 +938,6 @@ class CourseSplitSetting(models.Model):
 
     @classmethod
     def for_course(cls, course):
-        """取得課程的分潤設定；未自訂過就回傳未存檔的預設值物件，不多寫一筆資料庫紀錄。"""
         return cls.objects.filter(course=course).first() or cls(course=course)
 
     def __str__(self):
@@ -976,13 +947,7 @@ class CourseSplitSetting(models.Model):
         verbose_name = "課程分潤設定"
         verbose_name_plural = "課程分潤設定"
 
-
 class RevenueRecord(models.Model):
-    """收支記錄與分潤計算：訂單項目付款成功後，依課程當下的分潤設定拆算金額。
-
-    金額欄位（分潤比例、成本負擔比例）是建立當下從 CourseSplitSetting 拍照存檔，
-    之後設定異動不會追溯改到已建立的紀錄。
-    """
     STATUS_CHOICES = [
         ('confirmed', '已確認'),
         ('reversed', '已沖銷（退款）'),
@@ -997,7 +962,6 @@ class RevenueRecord(models.Model):
     course = models.ForeignKey(
         Course, on_delete=models.CASCADE, related_name="revenue_records", verbose_name="課程"
     )
-    # 講師另存快照：課程日後轉讓給別的講師時，不會追溯改到舊紀錄的歸屬人。
     teacher = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="revenue_records", verbose_name="講師"
     )
@@ -1010,7 +974,6 @@ class RevenueRecord(models.Model):
     teacher_marketing_share_percent = models.PositiveSmallIntegerField(verbose_name="講師行銷成本負擔比例(%)")
     company_marketing_share_percent = models.PositiveSmallIntegerField(verbose_name="公司行銷成本負擔比例(%)")
 
-    # 允許為負：行銷成本異常偏高時如實呈現（該方倒貼），而不是報錯。
     teacher_amount = models.IntegerField(default=0, verbose_name="講師應付金額")
     company_amount = models.IntegerField(default=0, verbose_name="公司實收金額")
 
@@ -1021,12 +984,6 @@ class RevenueRecord(models.Model):
     reversed_at = models.DateTimeField(blank=True, null=True, verbose_name="沖銷時間")
 
     def recompute(self):
-        """依目前欄位重新計算 teacher_amount / company_amount。
-
-        分潤比例作用於實付金額，成本負擔比例作用於行銷成本，兩組比例分開套用；
-        每一組都用「算一邊、另一邊用相減取得」，確保
-        teacher_amount + company_amount 精確等於 gross_amount - marketing_cost。
-        """
         gross_teacher = round(self.gross_amount * self.teacher_split_percent / 100)
         gross_company = self.gross_amount - gross_teacher
         cost_teacher = round(self.marketing_cost * self.teacher_marketing_share_percent / 100)
@@ -1040,7 +997,6 @@ class RevenueRecord(models.Model):
 
     @classmethod
     def create_for_order_item(cls, item):
-        """訂單項目付款成功後，建立對應的收支分潤紀錄。冪等：已存在就直接回傳。"""
         setting = CourseSplitSetting.for_course(item.course)
         record, _ = cls.objects.get_or_create(
             order_item=item,
@@ -1064,9 +1020,7 @@ class RevenueRecord(models.Model):
         verbose_name = "收支分潤紀錄"
         verbose_name_plural = "收支分潤紀錄"
 
-
 class WithdrawalRequest(models.Model):
-    """講師提領申請紀錄。"""
     STATUS_CHOICES = [
         ('pending', '待處理'),
         ('completed', '已完成'),
@@ -1081,14 +1035,11 @@ class WithdrawalRequest(models.Model):
         max_length=20, choices=STATUS_CHOICES, default='pending', verbose_name="狀態"
     )
     note = models.TextField(blank=True, null=True, verbose_name="處理備註")
-    # 申請當下的收款帳戶快照，之後帳戶異動不影響這筆歷史紀錄
     bank_info_snapshot = models.TextField(blank=True, default='', verbose_name="銀行帳戶快照")
     requested_at = models.DateTimeField(auto_now_add=True, verbose_name="申請時間")
     processed_at = models.DateTimeField(blank=True, null=True, verbose_name="處理時間")
 
     def clean(self):
-        # 只在建立新申請時擋超額提領；狀態異動（核准/拒絕）不重新檢查，
-        # 否則自己已佔用的額度會被重複扣一次。
         if self.pk is None:
             balance = self.available_balance(self.teacher)
             if self.amount > balance:
@@ -1101,7 +1052,6 @@ class WithdrawalRequest(models.Model):
 
     @classmethod
     def available_balance(cls, teacher):
-        """可提領餘額 = 已確認的分潤總額 − 已佔用（待處理＋已完成）的提領金額。"""
         confirmed = RevenueRecord.objects.filter(
             teacher=teacher, status='confirmed'
         ).aggregate(total=Sum('teacher_amount'))['total'] or 0
@@ -1118,13 +1068,7 @@ class WithdrawalRequest(models.Model):
         verbose_name_plural = "提領紀錄"
         ordering = ['-requested_at']
 
-
-# =========================
-# 追蹤講師與講師內容（專欄／文章／教材）
-# =========================
-
 class TeacherFollow(models.Model):
-    """學員追蹤講師：追蹤後會收到該講師的新課程、新公告、新促銷等通知。"""
     follower = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="following", verbose_name="追蹤者"
     )
@@ -1142,9 +1086,7 @@ class TeacherFollow(models.Model):
         unique_together = ('follower', 'teacher')
         ordering = ['-created_at']
 
-
 class TeacherColumn(models.Model):
-    """專欄：講師開設的主題系列，可歸類多篇文章。"""
     teacher = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="columns", verbose_name="講師"
     )
@@ -1154,7 +1096,6 @@ class TeacherColumn(models.Model):
         upload_to='teacher_columns/', blank=True, null=True, verbose_name="專欄封面"
     )
     is_published = models.BooleanField(default=True, verbose_name="是否公開")
-    # 付費訂閱：開啟後非訂閱者只能看到文章預覽
     is_paid = models.BooleanField(default=False, verbose_name="付費訂閱專欄")
     monthly_price = models.PositiveIntegerField(default=0, verbose_name="月費（NT$）")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="建立時間")
@@ -1163,7 +1104,6 @@ class TeacherColumn(models.Model):
         return f"{self.teacher.username} - {self.title}"
 
     def has_access(self, user):
-        """使用者能否讀取這個專欄的完整內容。"""
         if not self.is_paid:
             return True
         if not user.is_authenticated:
@@ -1179,9 +1119,7 @@ class TeacherColumn(models.Model):
         verbose_name_plural = "專欄"
         ordering = ['-created_at']
 
-
 class TeacherArticle(models.Model):
-    """文章：講師發布的圖文內容，可獨立存在或歸屬於某個專欄。"""
     teacher = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="articles", verbose_name="講師"
     )
@@ -1206,9 +1144,7 @@ class TeacherArticle(models.Model):
         verbose_name_plural = "文章"
         ordering = ['-created_at']
 
-
 class TeacherMaterial(models.Model):
-    """教材：講師提供的可下載檔案資源。"""
     teacher = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="materials", verbose_name="講師"
     )
@@ -1226,13 +1162,7 @@ class TeacherMaterial(models.Model):
         verbose_name_plural = "教材"
         ordering = ['-created_at']
 
-
-# =========================
-# 遊戲化：學習成就徽章
-# =========================
-
 class UserBadge(models.Model):
-    """使用者已獲得的成就徽章。徽章定義見 gamification.BADGES（code 對應）。"""
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="badges", verbose_name="使用者"
     )
@@ -1248,13 +1178,7 @@ class UserBadge(models.Model):
         unique_together = ('user', 'code')
         ordering = ['-earned_at']
 
-
-# =========================
-# 付費專欄訂閱
-# =========================
-
 class ColumnSubscription(models.Model):
-    """學員對付費專欄的訂閱；到期後 is_active 由 expires_at 判定。"""
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="column_subscriptions", verbose_name="訂閱者"
     )
@@ -1275,9 +1199,7 @@ class ColumnSubscription(models.Model):
         verbose_name_plural = "專欄訂閱"
         ordering = ['-started_at']
 
-
 class TeacherBankAccount(models.Model):
-    """教師收款銀行帳戶（一位教師一組）；提領申請時會存快照，不受後續修改影響。"""
     teacher = models.OneToOneField(
         User, on_delete=models.CASCADE, related_name="bank_account", verbose_name="教師"
     )
@@ -1292,7 +1214,6 @@ class TeacherBankAccount(models.Model):
         return bool(self.bank_name and self.account_name and self.account_number)
 
     def snapshot_text(self):
-        """提領申請時記錄的帳戶快照文字。"""
         parts = [self.bank_name]
         if self.bank_code:
             parts.append(f'（{self.bank_code}）')
@@ -1306,3 +1227,312 @@ class TeacherBankAccount(models.Model):
     class Meta:
         verbose_name = "教師銀行帳戶"
         verbose_name_plural = "教師銀行帳戶"
+
+class MarketingRequest(models.Model):
+    STATUS_CHOICES = [
+        ('pending', '待處理'),
+        ('processing', '處理中'),
+        ('completed', '已完成'),
+        ('rejected', '已退回'),
+    ]
+
+    GOAL_CHOICES = [
+        ('exposure', '增加課程曝光'),
+        ('enrollment', '增加招生人數'),
+        ('new_course', '新課程宣傳'),
+        ('promotion', '限時促銷'),
+        ('other', '其他'),
+    ]
+
+    teacher = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='marketing_requests',
+        verbose_name='教師'
+    )
+
+    course = models.ForeignKey(
+        Course,
+        on_delete=models.CASCADE,
+        related_name='marketing_requests',
+        verbose_name='課程'
+    )
+
+    goal = models.CharField(
+        max_length=30,
+        choices=GOAL_CHOICES,
+        verbose_name='行銷目的'
+    )
+
+    desired_start_date = models.DateField(
+        blank=True,
+        null=True,
+        verbose_name='希望開始日期'
+    )
+
+    notes = models.TextField(
+        blank=True,
+        default='',
+        verbose_name='補充需求'
+    )
+
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default='pending',
+        verbose_name='申請狀態'
+    )
+
+    admin_note = models.TextField(
+        blank=True,
+        default='',
+        verbose_name='後台備註'
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='申請時間'
+    )
+
+    updated_at = models.DateTimeField(
+        auto_now=True,
+        verbose_name='更新時間'
+    )
+
+    def __str__(self):
+        return f'{self.course.title} - {self.teacher.username} - {self.get_status_display()}'
+
+    class Meta:
+        verbose_name = 'AI 行銷申請'
+        verbose_name_plural = 'AI 行銷申請'
+        ordering = ['-created_at']
+
+class MarketingPlan(models.Model):
+    STATUS_CHOICES = [
+        ('draft', '草稿'),
+        ('reviewing', '待審核'),
+        ('approved', '已核准'),
+        ('rejected', '已退回'),
+    ]
+
+    marketing_request = models.OneToOneField(
+        MarketingRequest,
+        on_delete=models.CASCADE,
+        related_name='plan',
+        verbose_name='行銷申請',
+    )
+
+    target_audience = models.TextField(
+        blank=True,
+        default='',
+        verbose_name='目標受眾'
+    )
+
+    course_selling_points = models.TextField(
+        blank=True,
+        default='',
+        verbose_name='課程賣點'
+    )
+
+    marketing_strategy = models.TextField(
+        blank=True,
+        default='',
+        verbose_name='行銷策略'
+    )
+
+    ad_headline = models.TextField(
+        blank=True,
+        default='',
+        verbose_name='廣告標題'
+    )
+
+    ad_copy = models.TextField(
+        blank=True,
+        default='',
+        verbose_name='廣告文案'
+    )
+
+    social_media_copy = models.TextField(
+        blank=True,
+        default='',
+        verbose_name='社群貼文'
+    )
+
+    video_script = models.TextField(
+        blank=True,
+        default='',
+        verbose_name='短影音腳本'
+    )
+
+    call_to_action = models.CharField(
+        max_length=255,
+        blank=True,
+        default='',
+        verbose_name='行動呼籲'
+    )
+
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default='draft',
+        verbose_name='企劃狀態'
+    )
+
+    admin_note = models.TextField(
+        blank=True,
+        default='',
+        verbose_name='管理員備註'
+    )
+
+    generated_at = models.DateTimeField(
+        null=True,
+        blank=True,
+        verbose_name='AI 生成時間'
+    )
+
+    reviewed_at = models.DateTimeField(
+        null=True,
+        blank=True,
+        verbose_name='審核時間'
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='建立時間'
+    )
+
+    updated_at = models.DateTimeField(
+        auto_now=True,
+        verbose_name='更新時間'
+    )
+
+    def __str__(self):
+        return f'{self.marketing_request.course.title} - AI 行銷企劃'
+
+    class Meta:
+        verbose_name = 'AI 行銷企劃'
+        verbose_name_plural = 'AI 行銷企劃'
+        ordering = ['-created_at']
+
+class VMAccessRequest(models.Model):
+    STATUS_CHOICES = [
+        ('pending', '待審核'),
+        ('approved', '已核發'),
+        ('rejected', '已拒絕'),
+    ]
+
+    student = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='vm_access_requests', verbose_name='申請學生'
+    )
+    course = models.ForeignKey(
+        Course, on_delete=models.CASCADE, related_name='vm_access_requests', verbose_name='購買課程'
+    )
+    reason = models.TextField(
+        blank=True, default='', verbose_name='申請原因',
+        help_text='例如：課程需要的軟體只有 Windows 版本，Mac 無法安裝。'
+    )
+    status = models.CharField(
+        max_length=20, choices=STATUS_CHOICES, default='pending', verbose_name='申請狀態'
+    )
+
+    vm_url = models.CharField(max_length=255, blank=True, default='', verbose_name='虛擬機網址')
+    vm_username = models.CharField(max_length=100, blank=True, default='', verbose_name='虛擬機帳號')
+    vm_password = models.CharField(max_length=100, blank=True, default='', verbose_name='虛擬機密碼')
+
+    admin_note = models.TextField(blank=True, default='', verbose_name='後台備註')
+
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='申請時間')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='更新時間')
+    approved_at = models.DateTimeField(null=True, blank=True, verbose_name='核發時間')
+
+    def is_fulfilled(self):
+        return bool(self.vm_url and self.vm_username and self.vm_password)
+
+    def __str__(self):
+        return f'{self.student.username} - {self.course.title} - {self.get_status_display()}'
+
+    class Meta:
+        verbose_name = 'Mac 虛擬機申請'
+        verbose_name_plural = 'Mac 虛擬機申請'
+        ordering = ['-created_at']
+
+
+class Quiz(models.Model):
+    chapter = models.OneToOneField(
+        CourseChapter, on_delete=models.CASCADE, related_name="quiz", verbose_name="章節"
+    )
+    title = models.CharField(max_length=200, verbose_name="測驗標題")
+    pass_score = models.PositiveSmallIntegerField(
+        default=60,
+        validators=[MinValueValidator(0), MaxValueValidator(100)],
+        verbose_name="及格分數"
+    )
+    is_published = models.BooleanField(default=True, verbose_name="是否啟用")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="建立時間")
+
+    def question_count(self):
+        return self.questions.count()
+
+    def __str__(self):
+        return f"{self.chapter.title} - {self.title}"
+
+    class Meta:
+        verbose_name = "章節測驗"
+        verbose_name_plural = "章節測驗"
+
+class QuizQuestion(models.Model):
+    quiz = models.ForeignKey(
+        Quiz, on_delete=models.CASCADE, related_name="questions", verbose_name="測驗"
+    )
+    question_text = models.TextField(verbose_name="題目")
+    options = models.JSONField(default=list, verbose_name="選項清單")
+    correct_index = models.PositiveSmallIntegerField(default=0, verbose_name="正確選項索引")
+    explanation = models.TextField(blank=True, default='', verbose_name="解析")
+    sort_order = models.PositiveIntegerField(default=1, verbose_name="題目順序")
+
+    def __str__(self):
+        return f"{self.quiz.title} - Q{self.sort_order}"
+
+    class Meta:
+        verbose_name = "測驗題目"
+        verbose_name_plural = "測驗題目"
+        ordering = ['quiz', 'sort_order', 'id']
+
+class QuizAttempt(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="使用者")
+    quiz = models.ForeignKey(
+        Quiz, on_delete=models.CASCADE, related_name="attempts", verbose_name="測驗"
+    )
+    score = models.PositiveSmallIntegerField(default=0, verbose_name="分數")
+    correct_count = models.PositiveSmallIntegerField(default=0, verbose_name="答對題數")
+    total_count = models.PositiveSmallIntegerField(default=0, verbose_name="總題數")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="作答時間")
+
+    def is_passed(self):
+        return self.score >= self.quiz.pass_score
+
+    def __str__(self):
+        return f"{self.user.username} - {self.quiz.title} - {self.score}分"
+
+    class Meta:
+        verbose_name = "測驗作答紀錄"
+        verbose_name_plural = "測驗作答紀錄"
+        ordering = ['-created_at']
+
+class QuizAnswer(models.Model):
+    attempt = models.ForeignKey(
+        QuizAttempt, on_delete=models.CASCADE, related_name="answers", verbose_name="作答紀錄"
+    )
+    question = models.ForeignKey(
+        QuizQuestion, on_delete=models.CASCADE, verbose_name="題目"
+    )
+    selected_index = models.SmallIntegerField(default=-1, verbose_name="所選選項索引")
+    is_correct = models.BooleanField(default=False, verbose_name="是否答對")
+
+    def __str__(self):
+        return f"{self.attempt_id} - Q{self.question_id} - {'對' if self.is_correct else '錯'}"
+
+    class Meta:
+        verbose_name = "測驗答題明細"
+        verbose_name_plural = "測驗答題明細"
+        ordering = ['attempt', 'question']

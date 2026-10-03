@@ -8,7 +8,7 @@
     <a href="{% url 'teacher_dashboard' %}" class="text-jp-primary hover:underline font-medium">← 回教師專區</a>
   </div>
 
-  <!-- 新增章節 -->
+
   <div class="bg-white rounded-2xl ring-1 ring-slate-100 shadow-sm p-6 mb-5">
     <h2 class="text-lg font-black text-slate-900 mb-3">新增章節</h2>
     <form method="post" action="{% url 'add_chapter' course.id %}">
@@ -39,7 +39,7 @@
     <div class="flex items-center justify-between gap-3 flex-wrap bg-slate-50 rounded-lg px-3 py-2.5 mt-2">
       <div class="text-sm">
         <strong class="text-slate-800">{{ chapter.sort_order }}-{{ lesson.sort_order }} {{ lesson.title }}</strong>
-        <span class="text-slate-400">（{{ lesson.duration_minutes }} 分{% if lesson.is_free_preview %}・免費試看{% endif %}）</span>
+        <span class="text-slate-400">（{{ lesson.duration_minutes }} 分{% if lesson.is_free_preview %}・試看{% endif %}）</span>
         {% if lesson.video_file %}<span class="text-green-600 font-bold text-xs ml-1">🎬 已上傳影片</span>{% elif lesson.video_url %}<span class="text-jp-primary font-bold text-xs ml-1">🔗 影片連結</span>{% endif %}
         <span class="text-jp-primary font-bold text-xs ml-1">📎 教材 {{ lesson.materials.count }}</span>
       </div>
@@ -75,7 +75,7 @@
   <div class="bg-white rounded-2xl ring-1 ring-slate-100 shadow-sm p-8 text-center text-slate-500">尚未建立任何章節，請先於上方新增。</div>
   {% endfor %}
 
-  <!-- 課程公告 -->
+
   <div class="bg-white rounded-2xl ring-1 ring-slate-100 shadow-sm p-6 mt-5">
     <h2 class="text-lg font-black text-slate-900 mb-3">課程公告</h2>
     <form method="post" action="{% url 'add_announcement' course.id %}" class="mb-4">

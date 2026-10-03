@@ -17,11 +17,11 @@ from .models import (
     TeacherArticle,
     TeacherMaterial,
     TeacherBankAccount,
+    MarketingRequest,
+    VMAccessRequest,
 )
 
-
 class ListTextWidget(forms.TextInput):
-    """可輸入的下拉：附掛 datalist，選現有或直接打新的都行。"""
     def __init__(self, data_list, list_id, attrs=None):
         super().__init__(attrs)
         self._list = data_list
@@ -34,9 +34,7 @@ class ListTextWidget(forms.TextInput):
         datalist = '<datalist id="%s">%s</datalist>' % (self._list_id, options)
         return mark_safe(text_html + datalist)
 
-
 class CourseForm(forms.ModelForm):
-    # 單一欄位：整合「選現有分類」與「輸入新分類」
     category_name = forms.CharField(
         label='課程分類',
         max_length=100,
@@ -106,7 +104,6 @@ class CourseForm(forms.ModelForm):
             list_id='category_options',
             attrs={'placeholder': '選擇或輸入分類名稱'}
         )
-        # 編輯時帶入原本分類
         if self.instance and self.instance.pk and self.instance.category:
             self.fields['category_name'].initial = self.instance.category.name
 
@@ -151,7 +148,6 @@ class CourseForm(forms.ModelForm):
             course.save()
         return course
 
-
 class ChapterForm(forms.ModelForm):
     class Meta:
         model = CourseChapter
@@ -165,11 +161,9 @@ class ChapterForm(forms.ModelForm):
             'description': forms.Textarea(attrs={'rows': 2}),
         }
 
-
 class LessonForm(forms.ModelForm):
     class Meta:
         model = CourseLesson
-        # duration_minutes 不再由老師手動填，改成上傳影片後自動偵測
         fields = ['title', 'content', 'video_file', 'video_url', 'sort_order', 'is_free_preview']
         labels = {
             'title': '單元名稱',
@@ -184,7 +178,6 @@ class LessonForm(forms.ModelForm):
             'video_file': forms.ClearableFileInput(attrs={'accept': 'video/*'}),
         }
 
-
 class LessonMaterialForm(forms.ModelForm):
     class Meta:
         model = LessonMaterial
@@ -196,7 +189,6 @@ class LessonMaterialForm(forms.ModelForm):
             'sort_order': '排序',
         }
 
-
 class QuestionForm(forms.ModelForm):
     class Meta:
         model = CourseQuestion
@@ -205,7 +197,6 @@ class QuestionForm(forms.ModelForm):
         widgets = {
             'content': forms.Textarea(attrs={'rows': 3, 'placeholder': '請描述你的問題'}),
         }
-
 
 class AnswerForm(forms.ModelForm):
     class Meta:
@@ -216,7 +207,6 @@ class AnswerForm(forms.ModelForm):
             'content': forms.Textarea(attrs={'rows': 2, 'placeholder': '輸入你的回答'}),
         }
 
-
 class AnnouncementForm(forms.ModelForm):
     class Meta:
         model = CourseAnnouncement
@@ -225,7 +215,6 @@ class AnnouncementForm(forms.ModelForm):
         widgets = {
             'content': forms.Textarea(attrs={'rows': 3, 'placeholder': '輸入要通知學員的公告內容'}),
         }
-
 
 class CommentForm(forms.ModelForm):
     class Meta:
@@ -236,12 +225,11 @@ class CommentForm(forms.ModelForm):
             'content': forms.Textarea(attrs={'rows': 2, 'placeholder': '留下你的想法或心得'}),
         }
 
-
 class RegisterForm(forms.Form):
-    username = forms.CharField(label='帳號', max_length=150)
-    email = forms.EmailField(label='Email')
-    password = forms.CharField(label='密碼', widget=forms.PasswordInput)
-    confirm_password = forms.CharField(label='確認密碼', widget=forms.PasswordInput)
+    username = forms.CharField(label='帳號', max_length=150, widget=forms.TextInput(attrs={'autocomplete': 'username'}))
+    email = forms.EmailField(label='Email', widget=forms.EmailInput(attrs={'autocomplete': 'email'}))
+    password = forms.CharField(label='密碼', widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}))
+    confirm_password = forms.CharField(label='確認密碼', widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}))
 
     def clean_username(self):
         username = self.cleaned_data['username']
@@ -259,7 +247,6 @@ class RegisterForm(forms.Form):
 
         return cleaned_data
 
-
 class CouponApplyForm(forms.Form):
     coupon_code = forms.CharField(
         label='優惠碼',
@@ -269,7 +256,6 @@ class CouponApplyForm(forms.Form):
             'placeholder': '請輸入優惠碼，沒有可留空'
         })
     )
-
 
 class ReviewForm(forms.ModelForm):
     class Meta:
@@ -296,7 +282,6 @@ class ReviewForm(forms.ModelForm):
                 'placeholder': '請輸入你對這門課的想法'
             }),
         }
-
 
 class ProfileEditForm(forms.ModelForm):
     username = forms.CharField(
@@ -365,7 +350,6 @@ class ProfileEditForm(forms.ModelForm):
             profile.save()
         return profile
 
-
 class ColumnForm(forms.ModelForm):
     class Meta:
         model = TeacherColumn
@@ -392,7 +376,6 @@ class ColumnForm(forms.ModelForm):
             self.add_error('monthly_price', '付費專欄請設定月費（大於 0）。')
         return cleaned
 
-
 class ArticleForm(forms.ModelForm):
     class Meta:
         model = TeacherArticle
@@ -411,11 +394,9 @@ class ArticleForm(forms.ModelForm):
 
     def __init__(self, *args, teacher=None, **kwargs):
         super().__init__(*args, **kwargs)
-        # 專欄下拉只列出該講師自己的專欄
         if teacher is not None:
             self.fields['column'].queryset = TeacherColumn.objects.filter(teacher=teacher)
         self.fields['column'].required = False
-
 
 class TeacherBankAccountForm(forms.ModelForm):
     class Meta:
@@ -428,7 +409,6 @@ class TeacherBankAccountForm(forms.ModelForm):
             'account_name': '戶名',
             'account_number': '帳號',
         }
-
 
 class MaterialForm(forms.ModelForm):
     class Meta:
@@ -444,4 +424,47 @@ class MaterialForm(forms.ModelForm):
             'description': forms.Textarea(attrs={'rows': 3, 'placeholder': '這份教材的用途與內容'}),
         }
 
+class MarketingRequestForm(forms.ModelForm):
+    class Meta:
+        model = MarketingRequest
+        fields = ['course', 'goal', 'desired_start_date', 'notes']
+        labels = {
+            'course': '申請課程',
+            'goal': '行銷目的',
+            'desired_start_date': '希望開始日期',
+            'notes': '補充需求',
+        }
+        help_texts = {
+            'notes': '可以簡單告訴後台希望強調的方向，不需要自行撰寫廣告內容。',
+        }
+        widgets = {
+            'desired_start_date': forms.DateInput(attrs={'type': 'date'}),
+            'notes': forms.Textarea(attrs={'rows': 5, 'placeholder': '例如：希望主要推廣給上班族。'}),
+        }
 
+    def __init__(self, *args, teacher=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        if teacher is not None:
+            self.fields['course'].queryset = Course.objects.filter(teacher=teacher).order_by('-created_at')
+
+class VMAccessRequestForm(forms.ModelForm):
+    class Meta:
+        model = VMAccessRequest
+        fields = ['course', 'reason']
+        labels = {
+            'course': '哪一門課程需要用到虛擬機',
+            'reason': '申請原因（選填）',
+        }
+        help_texts = {
+            'reason': '例如：課程需要的軟體只有 Windows 版本，Mac 無法安裝。',
+        }
+        widgets = {
+            'reason': forms.Textarea(attrs={'rows': 4, 'placeholder': '簡單說明你的使用情境，方便我們核發。'}),
+        }
+
+    def __init__(self, *args, student=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        if student is not None:
+            self.fields['course'].queryset = Course.objects.filter(
+                enrollment__student=student
+            ).distinct().order_by('-created_at')
