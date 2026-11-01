@@ -36,7 +36,7 @@ def _latest_wrong_context(user, chapter):
 
 def generate_remedial(user, chapter, num_questions=4):
     """回傳 {'ok': bool, 'questions'/'error': ..., 'based_on': [...]}。
-    questions: [{'question_text','options','correct_index','explanation'}]"""
+    questions: [{'question_text','options','correct_index','explanation','hint'}]"""
     if not ai_assistant.is_enabled():
         return {'ok': False, 'error': 'AI 尚未啟用（管理者尚未設定 API 金鑰）。'}
 
@@ -59,9 +59,10 @@ def generate_remedial(user, chapter, num_questions=4):
         '1. 每題 4 個選項，只有 1 個正確。\n'
         '2. 針對學生答錯的概念，換個角度或情境出題，不要照抄原題。\n'
         '3. 每題附「解析」說明為什麼正解是對的。\n'
-        '4. 只能回傳「純 JSON 陣列」，不要有任何多餘文字或 ```markdown 標記。\n'
+        '4. 每題附一句「提示」，引導思考方向，但不能直接說出答案或正確選項。\n'
+        '5. 只能回傳「純 JSON 陣列」，不要有任何多餘文字或 ```markdown 標記。\n'
         '格式範例：\n'
-        '[{"question_text":"題目","options":["A","B","C","D"],"correct_index":0,"explanation":"解析"}]'
+        '[{"question_text":"題目","options":["A","B","C","D"],"correct_index":0,"hint":"提示","explanation":"解析"}]'
     )
     user_msg = f'學生答錯的題目：\n{wrong_text}'
 
@@ -118,5 +119,6 @@ def _parse_questions(reply):
             'options': [str(o) for o in opts],
             'correct_index': ci,
             'explanation': str(item.get('explanation', '')).strip(),
+            'hint': str(item.get('hint', '') or '').strip(),
         })
     return cleaned

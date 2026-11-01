@@ -1098,3 +1098,19 @@ class RevenueAndWithdrawalCsvExportTests(BaseFixture):
         self.assertEqual(response.content.count(bom), 1)
         self.assertTrue(response.content.startswith(bom))
         self.assertTrue(response.content[len(bom):].startswith(b'record_id,'))
+
+
+class RemedialHintParseTests(SimpleTestCase):
+    """補救練習題目解析：保留 AI 給的提示，沒有提示時給空字串。"""
+
+    def test_keeps_hint_when_present(self):
+        from .ai_remedial import _parse_questions
+        reply = '[{"question_text":"Q","options":["A","B","C","D"],"correct_index":1,"hint":"看引號","explanation":"E"}]'
+        self.assertEqual(_parse_questions(reply)[0]['hint'], '看引號')
+
+    def test_missing_hint_becomes_empty_string(self):
+        from .ai_remedial import _parse_questions
+        reply = '```json\n[{"question_text":"Q","options":["A","B"],"correct_index":0,"explanation":"E"}]\n```'
+        q = _parse_questions(reply)[0]
+        self.assertEqual(q['hint'], '')
+        self.assertEqual(q['correct_index'], 0)
