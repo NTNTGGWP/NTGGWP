@@ -8,12 +8,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv(BASE_DIR.parent / '.env')
 
-SECRET_KEY = os.environ.get(
-    'SECRET_KEY',
-    'django-insecure-!myfgv08#hs01651h)z0w9m48ywynf10)135pb!5tnmn%zug2n',
-)
-
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
+
+# SECRET_KEY 一律由環境變數提供；正式環境（DEBUG=False）沒設定就停止啟動，避免使用公開的預設值。
+SECRET_KEY = os.environ.get('SECRET_KEY', '')
+if not SECRET_KEY:
+    if DEBUG:
+        SECRET_KEY = 'dev-only-insecure-key-do-not-use-in-production'
+    else:
+        from django.core.exceptions import ImproperlyConfigured
+        raise ImproperlyConfigured('正式環境未設定 SECRET_KEY 環境變數')
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 ALLOWED_HOSTS += [h.strip() for h in os.environ.get('ALLOWED_HOSTS', '').split(',') if h.strip()]

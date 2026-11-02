@@ -45,3 +45,9 @@ myproject/media/lesson_materials/
 incoming_latest/
 outputs/
 *.tar.gz
+
+# 機密與資料庫備份（資安修正）：任何 .env 變體與 SQL 匯出都不進版控
+.env*
+!.env.example
+*.sql
+*.sql.gz
