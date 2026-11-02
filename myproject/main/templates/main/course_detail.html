@@ -80,6 +80,12 @@
                 {% if course.intro_video_file or course.intro_video_url %}
                 <button type="button" data-intro-open class="btn-glass px-5 py-3 text-base"><i class="fas fa-circle-play text-lg"></i> 觀看介紹片</button>
                 {% endif %}
+                {% if can_access_ai %}
+                    {% if first_quiz %}
+                    <a href="{% url 'take_quiz' first_quiz.chapter_id %}" class="btn-glass px-5 py-3 text-base"><i class="fas fa-brain"></i> AI 診斷測驗</a>
+                    {% endif %}
+                    <button type="button" data-ai-open class="btn-glass px-5 py-3 text-base"><i class="fas fa-robot"></i> AI 課程助教</button>
+                {% endif %}
             </div>
         </div>
 
@@ -154,6 +160,33 @@
             </div>
             {% endif %}
 
+
+            {% if can_access_ai %}
+            <section class="mb-7 overflow-hidden rounded-2xl border border-violet-400/30 bg-gradient-to-br from-[#21163c] via-jp-surface to-[#0b3034] shadow-lg shadow-violet-950/20" aria-labelledby="ai-learning-title">
+                <div class="p-5 sm:p-6">
+                    <div class="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+                        <div class="max-w-2xl">
+                            <div class="mb-2 flex items-center gap-2 text-violet-300">
+                                <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-violet-600 text-white"><i class="fas fa-wand-magic-sparkles"></i></span>
+                                <h2 id="ai-learning-title" class="font-grotesk text-xl font-extrabold text-jp-text">AI 學習專區</h2>
+                            </div>
+                            <p class="text-sm leading-6 text-jp-muted">先做章節測驗，AI 會依照錯題與學習紀錄找出弱點，再提供個人化診斷與補救練習。</p>
+                            <p class="mt-2 text-xs font-bold tracking-wide text-violet-300">學習 → 測驗 → AI 診斷 → 補救練習 → 再測驗</p>
+                        </div>
+                        <div class="flex shrink-0 flex-col gap-2 sm:min-w-48">
+                            {% if first_quiz %}
+                            <a href="{% url 'take_quiz' first_quiz.chapter_id %}" class="inline-flex items-center justify-center gap-2 rounded-xl bg-violet-600 px-5 py-3 font-bold text-white shadow-sm transition hover:bg-violet-700">
+                                <i class="fas fa-clipboard-question"></i>開始 AI 診斷測驗
+                            </a>
+                            {% endif %}
+                            <button type="button" data-ai-open class="inline-flex items-center justify-center gap-2 rounded-xl border border-violet-400/40 bg-violet-500/10 px-5 py-3 font-bold text-violet-200 transition hover:bg-violet-500/20">
+                                <i class="fas fa-robot"></i>詢問 AI 課程助教
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            {% endif %}
 
             <div class="border-b border-jp-border mb-6">
                 <div class="flex space-x-8 overflow-x-auto no-scrollbar" data-tabs>
@@ -231,6 +264,21 @@
                                 {% endif %}
                             </li>
                             {% empty %}<li class="px-4 py-3 text-sm text-jp-muted">此章節尚無單元</li>{% endfor %}
+                            {% if chapter.quiz.is_published and chapter.quiz.question_count %}
+                            <li class="bg-violet-500/10 text-sm">
+                                {% if can_access_ai %}
+                                <a href="{% url 'take_quiz' chapter.id %}" class="flex items-center justify-between gap-3 px-4 py-3.5 transition hover:bg-violet-500/20">
+                                    <span class="font-bold text-violet-300"><i class="fas fa-brain mr-2"></i>第 {{ chapter.sort_order }} 章 AI 診斷測驗</span>
+                                    <span class="shrink-0 rounded-full bg-violet-600 px-2.5 py-1 text-xs font-bold text-white">{{ chapter.quiz.question_count }} 題・開始測驗</span>
+                                </a>
+                                {% else %}
+                                <div class="flex items-center justify-between gap-3 px-4 py-3.5 text-jp-muted">
+                                    <span><i class="fas fa-lock mr-2"></i>第 {{ chapter.sort_order }} 章 AI 診斷測驗</span>
+                                    <span class="text-xs">加入課程後開放</span>
+                                </div>
+                                {% endif %}
+                            </li>
+                            {% endif %}
                         </ul>
                     </div>
                     {% endfor %}
@@ -440,6 +488,10 @@
                     {% if already_purchased %}
                     <p class="text-green-600 font-bold mb-3 flex items-center gap-2"><i class="fas fa-circle-check"></i> 你已擁有這門課程</p>
                     <a href="{% url 'watch_course' course.id %}" class="block text-center w-full bg-green-600 text-white py-3 rounded-lg font-medium text-lg mb-3 hover:bg-green-700 transition">▶ 開始上課</a>
+                    {% if first_quiz %}
+                    <a href="{% url 'take_quiz' first_quiz.chapter_id %}" class="block text-center w-full bg-violet-600 text-white py-3 rounded-lg font-bold mb-3 hover:bg-violet-700 transition"><i class="fas fa-brain mr-1"></i> AI 診斷測驗</a>
+                    {% endif %}
+                    <button type="button" data-ai-open class="block text-center w-full border border-violet-200 bg-violet-50 text-violet-700 py-3 rounded-lg font-bold mb-5 hover:bg-violet-100 transition"><i class="fas fa-robot mr-1"></i> 詢問 AI 課程助教</button>
                     {% else %}
                     <form method="post" action="{% url 'enroll_free' course.id %}">
                         {% csrf_token %}
@@ -684,11 +736,21 @@ document.querySelectorAll('[data-funding-countdown]').forEach((root) => {
         });
     }
 
+    const openPanel = () => {
+        panel.classList.remove('hidden');
+        input.focus();
+        const ping = root.querySelector('[data-ai-ping]');
+        if (ping) ping.remove();
+    };
+
     root.querySelector('[data-ai-toggle]').addEventListener('click', () => {
         panel.classList.toggle('hidden');
         if (!panel.classList.contains('hidden')) input.focus();
         const ping = root.querySelector('[data-ai-ping]');
         if (ping) ping.remove();
+    });
+    document.querySelectorAll('[data-ai-open]').forEach((button) => {
+        button.addEventListener('click', openPanel);
     });
     root.querySelector('[data-ai-close]').addEventListener('click', () => panel.classList.add('hidden'));
 

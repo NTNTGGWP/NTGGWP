@@ -32,6 +32,8 @@ from .models import (
     Refund,
     RevenueRecord,
     Review,
+    Quiz,
+    QuizQuestion,
     TeacherBankAccount,
     WithdrawalRequest,
 )
@@ -260,6 +262,48 @@ class BaseFixture(TestCase):
         order.payments.update(status='paid', paid_at=timezone.now())
         fulfill_order(order)
         return order
+
+
+class CourseAiEntryTests(BaseFixture):
+
+    def setUp(self):
+        super().setUp()
+        self.quiz = Quiz.objects.create(
+            chapter=self.chapter,
+            title='第一章 AI 診斷測驗',
+            is_published=True,
+        )
+        QuizQuestion.objects.create(
+            quiz=self.quiz,
+            question_text='Django 的專案指令入口是哪個檔案？',
+            options=['manage.py', 'views.py'],
+            correct_index=0,
+            sort_order=1,
+            topic_tag='Django 指令',
+        )
+
+    def test_enrolled_student_can_find_ai_quiz_from_course_page(self):
+        self.buy(self.student, self.course)
+        self.client.login(username='student', password='pw')
+
+        response = self.client.get(reverse('course_detail', args=[self.course.id]))
+
+        quiz_url = reverse('take_quiz', args=[self.chapter.id])
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'AI 學習專區')
+        self.assertContains(response, '開始 AI 診斷測驗')
+        self.assertContains(response, '第 1 章 AI 診斷測驗')
+        self.assertContains(response, quiz_url)
+
+    def test_empty_quiz_is_not_offered_as_ai_entry(self):
+        self.quiz.questions.all().delete()
+        self.buy(self.student, self.course)
+        self.client.login(username='student', password='pw')
+
+        response = self.client.get(reverse('course_detail', args=[self.course.id]))
+
+        self.assertIsNone(response.context['first_quiz'])
+        self.assertNotContains(response, '開始 AI 診斷測驗')
 
 
 class CourseCertificateTests(BaseFixture):

@@ -358,7 +358,20 @@ def course_detail(request, course_id):
         else:
             review_form = ReviewForm()
 
-    chapters = course.chapters.prefetch_related('lessons').all()
+    chapters = course.chapters.select_related('quiz').prefetch_related('lessons').all()
+
+    # 課程頁要能直接找到測驗，不能只把入口藏在影片播放頁。
+    # 僅列出已啟用且確實有題目的測驗，避免使用者點進空白測驗後又被導回。
+    available_quizzes = list(
+        Quiz.objects.filter(
+            chapter__course=course,
+            is_published=True,
+        )
+        .select_related('chapter')
+        .annotate(question_total=Count('questions'))
+        .filter(question_total__gt=0)
+        .order_by('chapter__sort_order', 'chapter_id')
+    )
 
     reviews = Review.objects.filter(
         course=course
@@ -389,6 +402,9 @@ def course_detail(request, course_id):
     ).select_related('user').prefetch_related('answers__user').order_by('-created_at')
 
     is_course_teacher = request.user.is_authenticated and course.teacher_id == request.user.id
+    can_access_ai = request.user.is_authenticated and (
+        already_purchased or is_course_teacher or request.user.is_superuser
+    )
 
     total_lessons = CourseLesson.objects.filter(chapter__course=course).count()
     total_minutes = CourseLesson.objects.filter(chapter__course=course).aggregate(
@@ -430,6 +446,9 @@ def course_detail(request, course_id):
         'course_faqs': ai_assistant.build_course_faq(course),
         'already_purchased': already_purchased,
         'chapters': chapters,
+        'available_quizzes': available_quizzes,
+        'first_quiz': available_quizzes[0] if available_quizzes else None,
+        'can_access_ai': can_access_ai,
         'reviews': reviews,
         'average_rating': average_rating,
         'review_count': review_count,
