@@ -105,6 +105,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Power BI「發佈至網站」報表連結。換報表時只要改環境變數 POWERBI_EMBED_URL，不用改程式。
+POWERBI_EMBED_URL = os.environ.get(
+    'POWERBI_EMBED_URL',
+    'https://app.powerbi.com/view?r=eyJrIjoiODc0NTllOTktMDIxZS00NmUxLTkwNTMtN2RhODY0MTBjMjk0IiwidCI6IjM5OTIzMmZiLTE3ZDEtNDVjYS1iZGE2LTViNTQwNDQxYmQ2MiIsImMiOjEwfQ%3D%3D',
+)
+
 LANGUAGE_CODE = 'zh-hant'
 
 TIME_ZONE = 'Asia/Taipei'
