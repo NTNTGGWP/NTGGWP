@@ -1,8 +1,0 @@
-{# 放在课程章節清单里；chapter 必须是 CourseChapter。 #}
-{% if chapter.quiz and chapter.quiz.is_published %}
-  <a href="{% url 'take_quiz' chapter.id %}"
-     class="inline-flex items-center gap-2 rounded-lg px-4 py-2 font-bold">
-    开始第 {{ chapter.sort_order }} 章测验
-  </a>
-{% endif %}
-

@@ -51,3 +51,9 @@ outputs/
 !.env.example
 *.sql
 *.sql.gz
+
+# 本機暫存與交接檔（不進版控）
+handoff/
+tmp/
+output/
+Claude outputs/
