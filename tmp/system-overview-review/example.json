@@ -1,0 +1,1281 @@
+{
+  "path": "C:\\Users\\Gary9\\OneDrive\\桌面\\資服競賽\\文件書\\官方範本\\系統概述文件_產學合作組v1.docx",
+  "sections": [
+    {
+      "index": 1,
+      "orientation": "PORTRAIT (0)",
+      "page_width_in": 8.2681,
+      "page_height_in": 11.6931,
+      "margin_top_in": 0.7875,
+      "margin_bottom_in": 0.7875,
+      "margin_left_in": 0.7875,
+      "margin_right_in": 0.7875,
+      "gutter_in": 0.3937,
+      "header_distance_in": 0.3937,
+      "footer_distance_in": 0.3937,
+      "header_text": "",
+      "footer_text": ""
+    }
+  ],
+  "paragraph_count": 39,
+  "nonempty_paragraph_count": 36,
+  "empty_paragraph_count": 3,
+  "used_styles": {
+    "Plain Text": 3,
+    "Normal": 35,
+    "List Paragraph": 1
+  },
+  "style_definitions": [
+    {
+      "name": "Plain Text",
+      "type": "PARAGRAPH (1)",
+      "base_style": null,
+      "font": "Times New Roman",
+      "size_pt": 14.0,
+      "bold": null,
+      "italic": null,
+      "alignment": null,
+      "left_indent_in": null,
+      "right_indent_in": null,
+      "first_line_indent_in": null,
+      "space_before_pt": null,
+      "space_after_pt": null,
+      "line_spacing": null,
+      "line_spacing_rule": null
+    },
+    {
+      "name": "Normal",
+      "type": "PARAGRAPH (1)",
+      "base_style": null,
+      "font": null,
+      "size_pt": null,
+      "bold": null,
+      "italic": null,
+      "alignment": null,
+      "left_indent_in": null,
+      "right_indent_in": null,
+      "first_line_indent_in": null,
+      "space_before_pt": null,
+      "space_after_pt": null,
+      "line_spacing": null,
+      "line_spacing_rule": null
+    },
+    {
+      "name": "List Paragraph",
+      "type": "PARAGRAPH (1)",
+      "base_style": "Normal",
+      "font": null,
+      "size_pt": null,
+      "bold": null,
+      "italic": null,
+      "alignment": null,
+      "left_indent_in": 0.3333,
+      "right_indent_in": null,
+      "first_line_indent_in": null,
+      "space_before_pt": null,
+      "space_after_pt": null,
+      "line_spacing": null,
+      "line_spacing_rule": null
+    }
+  ],
+  "paragraphs": [
+    {
+      "index": 0,
+      "text": "編號： ",
+      "style": "Plain Text",
+      "alignment": null,
+      "left_indent_in": null,
+      "right_indent_in": null,
+      "first_line_indent_in": null,
+      "space_before_pt": 3.0,
+      "space_after_pt": 3.0,
+      "line_spacing": null,
+      "line_spacing_rule": null,
+      "keep_with_next": null,
+      "keep_together": null,
+      "page_break_before": null,
+      "runs": [
+        {
+          "text": "編號：",
+          "font": null,
+          "size_pt": 12.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " ",
+          "font": null,
+          "size_pt": 12.0,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "text": "中文專題名稱：交接不斷線",
+      "style": "Plain Text",
+      "alignment": null,
+      "left_indent_in": null,
+      "right_indent_in": null,
+      "first_line_indent_in": null,
+      "space_before_pt": 3.0,
+      "space_after_pt": 3.0,
+      "line_spacing": null,
+      "line_spacing_rule": null,
+      "keep_with_next": null,
+      "keep_together": null,
+      "page_break_before": null,
+      "runs": [
+        {
+          "text": "中文專題名稱：交接不斷線",
+          "font": null,
+          "size_pt": 12.0,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "text": "英文專題名稱：Knowledge Handover Without Interruption",
+      "style": "Plain Text",
+      "alignment": null,
+      "left_indent_in": null,
+      "right_indent_in": null,
+      "first_line_indent_in": null,
+      "space_before_pt": 3.0,
+      "space_after_pt": 3.0,
+      "line_spacing": null,
+      "line_spacing_rule": null,
+      "keep_with_next": null,
+      "keep_together": null,
+      "page_break_before": null,
+      "runs": [
+        {
+          "text": "英文專題名稱：",
+          "font": null,
+          "size_pt": 12.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "Knowledge Handover Without Interruption",
+          "font": null,
+          "size_pt": 12.0,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "text": "",
+      "style": "Normal",
+      "alignment": null,
+      "left_indent_in": null,
+      "right_indent_in": null,
+      "first_line_indent_in": null,
+      "space_before_pt": 3.0,
+      "space_after_pt": 3.0,
+      "line_spacing": null,
+      "line_spacing_rule": null,
+      "keep_with_next": null,
+      "keep_together": null,
+      "page_break_before": null,
+      "runs": []
+    },
+    {
+      "index": 4,
+      "text": "前言",
+      "style": "List Paragraph",
+      "alignment": null,
+      "left_indent_in": null,
+      "right_indent_in": null,
+      "first_line_indent_in": null,
+      "space_before_pt": 3.0,
+      "space_after_pt": 3.0,
+      "line_spacing": null,
+      "line_spacing_rule": null,
+      "keep_with_next": true,
+      "keep_together": null,
+      "page_break_before": null,
+      "runs": [
+        {
+          "text": "前言",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": true,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 5,
+      "text": "員工離開時帶走的往往不只是職位，還有客戶關係與處理經驗；研究指出，離職造成的知識缺口會削弱組織的知識存量，且難以隨時間自然補回（Massingham, 2018）。以業務部門為例，一位任職四年的業務預計三十天後離職，主管最在意的是續約進度、報價與對客戶的口頭承諾能否完整交到接手者手上。這些內容多屬於靠經驗累積的隱性知識，需經由對話與實作才能轉移（Nonaka & Takeuchi, 1995）。",
+      "style": "Normal",
+      "alignment": "JUSTIFY (3)",
+      "left_indent_in": 0.2917,
+      "right_indent_in": null,
+      "first_line_indent_in": 0.3889,
+      "space_before_pt": 3.0,
+      "space_after_pt": 3.0,
+      "line_spacing": null,
+      "line_spacing_rule": null,
+      "keep_with_next": null,
+      "keep_together": null,
+      "page_break_before": null,
+      "runs": [
+        {
+          "text": "員工離開時帶走的往往不只是職位，還有客戶關係與處理經驗；研究指出，離職造成的知識缺口會削弱組織的知識存量，且難以隨時間自然補回（Massingham, 2018）。以業務部門為例，一位任職四年的業務預計三十天後離職，主管最在意的是續約進度、報價與對客戶的口頭承諾能否完整交到接手者手上。這些內容多屬於靠經驗累積的隱性知識，需經由對話與實作才能轉移（Nonaka & Takeuchi, 1995）。",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 6,
+      "text": "然而，人資的離職手續與部門的業務交接各自進行，資料分散在不同系統。本團隊提出「交接不斷線」，以自行開發的整合服務透過API串接VITAL BizForm、VITAL CRM與C.AI三項叡揚數位服務，再結合LINE與Power BI，讓交接資料自動流動，實現「人可以離開，經驗不能斷線」。",
+      "style": "Normal",
+      "alignment": "JUSTIFY (3)",
+      "left_indent_in": 0.2917,
+      "right_indent_in": null,
+      "first_line_indent_in": 0.3889,
+      "space_before_pt": 3.0,
+      "space_after_pt": 3.0,
+      "line_spacing": null,
+      "line_spacing_rule": null,
+      "keep_with_next": null,
+      "keep_together": null,
+      "page_break_before": null,
+      "runs": [
+        {
+          "text": "然而，人資的離職手續與部門的業務交接各自進行，資料分散在不同系統。本團隊提出「交接不斷線」，以自行開發的整合服務透過API串接",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "VITAL ",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": true,
+          "italic": null
+        },
+        {
+          "text": "BizForm",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": true,
+          "italic": null
+        },
+        {
+          "text": "、VITAL CRM與C.AI三項叡揚數位服務",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": true,
+          "italic": null
+        },
+        {
+          "text": "，再結合LINE與Power BI，讓交接資料自動流動，實現「人可以離開，經驗不能斷線」。",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 7,
+      "text": "二、創意描述",
+      "style": "Normal",
+      "alignment": null,
+      "left_indent_in": 0.2917,
+      "right_indent_in": null,
+      "first_line_indent_in": null,
+      "space_before_pt": 3.0,
+      "space_after_pt": 3.0,
+      "line_spacing": null,
+      "line_spacing_rule": null,
+      "keep_with_next": true,
+      "keep_together": null,
+      "page_break_before": null,
+      "runs": [
+        {
+          "text": "二、創意描述",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": true,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 8,
+      "text": "本作品的核心想法是「讓系統主動把經驗問出來」。交接人不必面對空白文件，而是在LINE上回答C.AI依客戶逐一提出的問題，回答內容自動整理成客戶知識卡寫入CRM。接手人提問時，系統以檢索既有紀錄為基礎產生回答並附上出處，降低AI憑空生成的風險（Lewis et al., 2020）；接手人還能先與AI扮演的客戶對練，取得評分與建議後再正式接觸客戶。此外，交接案件與驗收結果由BizForm建立並回傳、客戶知識直接寫入CRM，人員不需在各系統間重複登打。",
+      "style": "Normal",
+      "alignment": "JUSTIFY (3)",
+      "left_indent_in": 0.2917,
+      "right_indent_in": null,
+      "first_line_indent_in": 0.3889,
+      "space_before_pt": 3.0,
+      "space_after_pt": 3.0,
+      "line_spacing": null,
+      "line_spacing_rule": null,
+      "keep_with_next": null,
+      "keep_together": null,
+      "page_break_before": null,
+      "runs": [
+        {
+          "text": "本作品的核心想法是「讓系統主動把經驗問出來」。交接人不必面對空白文件，而是在LINE上回答C.AI依客戶逐一提出的問題，回答內容自動整理成客戶知識卡寫入CRM。接手人提問時，系統以檢索既有紀錄為基礎產生回答並附上出處，降低AI憑空生成的風險（Lewis et al., 2020）；接手人還能先與AI扮演的客戶對練，取得評分與建議後再正式接觸客戶。此外，交接案件與驗收結果由BizForm建立並回傳、客戶知識直接寫入CRM，人員不需在各系統間重複登打。",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 9,
+      "text": "三、系統功能簡介",
+      "style": "Normal",
+      "alignment": null,
+      "left_indent_in": 0.2917,
+      "right_indent_in": null,
+      "first_line_indent_in": null,
+      "space_before_pt": 3.0,
+      "space_after_pt": 3.0,
+      "line_spacing": null,
+      "line_spacing_rule": null,
+      "keep_with_next": true,
+      "keep_together": null,
+      "page_break_before": null,
+      "runs": [
+        {
+          "text": "三、系統功能簡介",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": true,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 10,
+      "text": "交接過程依四週時程分為七個步驟，由主管／人資、交接人、接手人與系統分工完成，如圖1所示。第一週由人資確認最後工作日、主管指定接手者，並於BizForm建立交接案件。第二週交接人透過LINE接受C.AI訪談，產出的知識卡同步寫入CRM；接手人可隨時查詢並進行模擬演練。第三週主管確認關鍵客戶與承諾並召開交接會議，會議重點回存CRM，接手人開始跟崗處理案件。第四週主管於BizForm逐項驗收文件、權限與未結事項，未通過者退回補正並指定期限。整個期間由系統計算完成率與逾期項目，於Power BI呈現並以LINE提醒相關人員。",
+      "style": "Normal",
+      "alignment": "JUSTIFY (3)",
+      "left_indent_in": 0.2917,
+      "right_indent_in": null,
+      "first_line_indent_in": 0.3889,
+      "space_before_pt": 3.0,
+      "space_after_pt": 3.0,
+      "line_spacing": null,
+      "line_spacing_rule": null,
+      "keep_with_next": null,
+      "keep_together": null,
+      "page_break_before": null,
+      "runs": [
+        {
+          "text": "交接過程依四週時程分為七個步驟，由主管／人資、交接人、接手人與系統分工完成，如圖1所示。第一週由人資確認最後工作日、主管指定接手者，並於BizForm建立交接案件。第二週交接人透過LINE接受C.AI訪談，產出的知識卡同步寫入CRM；接手人可隨時查詢並進行模擬演練。第三週主管確認關鍵客戶與承諾並召開交接會議，會議重點回存CRM，接手人開始跟崗處理案件。第四週主管於BizForm逐項驗收文件、權限與未結事項，未通過者退回補正並指定期限。整個期間由系統計算完成率與逾期項目，於Power BI呈現並以LINE提醒相關人員。",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 11,
+      "text": "",
+      "style": "Normal",
+      "alignment": "CENTER (1)",
+      "left_indent_in": null,
+      "right_indent_in": null,
+      "first_line_indent_in": null,
+      "space_before_pt": 3.0,
+      "space_after_pt": 3.0,
+      "line_spacing": null,
+      "line_spacing_rule": null,
+      "keep_with_next": true,
+      "keep_together": null,
+      "page_break_before": null,
+      "runs": []
+    },
+    {
+      "index": 12,
+      "text": "圖1　交接七步驟與四週時程\n(資料來源：本系統自行整理)",
+      "style": "Normal",
+      "alignment": "CENTER (1)",
+      "left_indent_in": null,
+      "right_indent_in": null,
+      "first_line_indent_in": null,
+      "space_before_pt": 3.0,
+      "space_after_pt": 3.0,
+      "line_spacing": null,
+      "line_spacing_rule": null,
+      "keep_with_next": null,
+      "keep_together": null,
+      "page_break_before": null,
+      "runs": [
+        {
+          "text": "圖1　交接七步驟與四週時程",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": true,
+          "italic": null
+        },
+        {
+          "text": "\n(資料來源：本系統自行整理)",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": true,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 13,
+      "text": "四、系統特色",
+      "style": "Normal",
+      "alignment": null,
+      "left_indent_in": 0.2917,
+      "right_indent_in": null,
+      "first_line_indent_in": null,
+      "space_before_pt": 3.0,
+      "space_after_pt": 3.0,
+      "line_spacing": null,
+      "line_spacing_rule": null,
+      "keep_with_next": true,
+      "keep_together": null,
+      "page_break_before": null,
+      "runs": [
+        {
+          "text": "四、系統特色",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": true,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 14,
+      "text": "多項叡揚服務一次串接：BizForm、CRM與C.AI經由同一個整合服務交換資料，交接資訊集中且可追溯。AI協助、主管把關：訪談、整理與評分交給AI，承諾與驗收仍由主管決定。零學習成本：員工在熟悉的LINE上完成訪談與查詢。事前預警：逾期項目在影響客戶前即推播提醒。",
+      "style": "Normal",
+      "alignment": "JUSTIFY (3)",
+      "left_indent_in": 0.2917,
+      "right_indent_in": null,
+      "first_line_indent_in": 0.3889,
+      "space_before_pt": 3.0,
+      "space_after_pt": 3.0,
+      "line_spacing": null,
+      "line_spacing_rule": null,
+      "keep_with_next": null,
+      "keep_together": null,
+      "page_break_before": null,
+      "runs": [
+        {
+          "text": "多項叡揚服務一次串接",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": true,
+          "italic": null
+        },
+        {
+          "text": "：BizForm、CRM與C.AI經由同一個整合服務交換資料，交接資訊集中且可追溯。",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "AI協助、主管把關",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": true,
+          "italic": null
+        },
+        {
+          "text": "：訪談、整理與評分交給AI，承諾與驗收仍由主管決定。",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "零學習成本",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": true,
+          "italic": null
+        },
+        {
+          "text": "：員工在熟悉的LINE上完成訪談與查詢。",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "事前預警",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": true,
+          "italic": null
+        },
+        {
+          "text": "：逾期項目在影響客戶前即推播提醒。",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 15,
+      "text": "五、系統開發工具與技術",
+      "style": "Normal",
+      "alignment": null,
+      "left_indent_in": 0.2917,
+      "right_indent_in": null,
+      "first_line_indent_in": null,
+      "space_before_pt": 3.0,
+      "space_after_pt": 3.0,
+      "line_spacing": null,
+      "line_spacing_rule": null,
+      "keep_with_next": true,
+      "keep_together": null,
+      "page_break_before": null,
+      "runs": [
+        {
+          "text": "五、系統開發工具與技術",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": true,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 16,
+      "text": "開發工具為Visual Studio Code與GitHub，整合服務以Python與Java撰寫，前端頁面使用JavaScript／TypeScript。系統以「交接整合服務」為中心，向左串接三項叡揚服務，向右連接LINE與Power BI，如圖2所示；各項API的串接內容整理於表1。",
+      "style": "Normal",
+      "alignment": "JUSTIFY (3)",
+      "left_indent_in": 0.2917,
+      "right_indent_in": null,
+      "first_line_indent_in": 0.3889,
+      "space_before_pt": 3.0,
+      "space_after_pt": 3.0,
+      "line_spacing": null,
+      "line_spacing_rule": null,
+      "keep_with_next": null,
+      "keep_together": null,
+      "page_break_before": null,
+      "runs": [
+        {
+          "text": "開發工具為Visual Studio Code與GitHub，整合服務以Python與Java撰寫，前端頁面使用JavaScript／TypeScript。系統以「交接整合服務」為中心，向左串接三項叡揚服務，向右連接LINE與Power BI，如圖2所示；各項API的串接內容整理於表1。",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 17,
+      "text": "表1　叡揚數位服務API串接內容\n(資料來源：本系統自行整理)",
+      "style": "Normal",
+      "alignment": "CENTER (1)",
+      "left_indent_in": null,
+      "right_indent_in": null,
+      "first_line_indent_in": null,
+      "space_before_pt": 3.0,
+      "space_after_pt": 3.0,
+      "line_spacing": null,
+      "line_spacing_rule": null,
+      "keep_with_next": true,
+      "keep_together": null,
+      "page_break_before": null,
+      "runs": [
+        {
+          "text": "表1　叡揚數位服務API串接內容",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": true,
+          "italic": null
+        },
+        {
+          "text": "\n(資料來源：本系統自行整理)",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": true,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 18,
+      "text": "外部服務方面，LINE Messaging API以Webhook將使用者訊息送至伺服器，整合服務於處理前驗證請求簽章，並依事件識別碼過濾重送的重複事件（LY Corporation, n.d.-a, n.d.-b）；逾期提醒則以Push訊息主動通知。交接指標透過Power BI REST API推送至資料集，供儀表板呈現（Microsoft, n.d.）。",
+      "style": "Normal",
+      "alignment": "JUSTIFY (3)",
+      "left_indent_in": 0.2917,
+      "right_indent_in": null,
+      "first_line_indent_in": 0.3889,
+      "space_before_pt": 3.0,
+      "space_after_pt": 3.0,
+      "line_spacing": null,
+      "line_spacing_rule": null,
+      "keep_with_next": null,
+      "keep_together": null,
+      "page_break_before": null,
+      "runs": [
+        {
+          "text": "外部服務方面，LINE Messaging API以Webhook將使用者訊息送至伺服器，整合服務於處理前驗證請求簽章，並依事件識別碼過濾重送的重複事件（LY Corporation, n.d.-a, n.d.-b）；逾期提醒則以Push訊息主動通知。交接指標透過Power BI REST API推送至資料集，供儀表",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "板呈現（Microsoft, n.d.）。",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 19,
+      "text": "",
+      "style": "Normal",
+      "alignment": "CENTER (1)",
+      "left_indent_in": null,
+      "right_indent_in": null,
+      "first_line_indent_in": null,
+      "space_before_pt": 3.0,
+      "space_after_pt": 3.0,
+      "line_spacing": null,
+      "line_spacing_rule": null,
+      "keep_with_next": true,
+      "keep_together": null,
+      "page_break_before": null,
+      "runs": []
+    },
+    {
+      "index": 20,
+      "text": "圖2　叡揚服務API串接架構\n(資料來源：本系統自行整理)",
+      "style": "Normal",
+      "alignment": "CENTER (1)",
+      "left_indent_in": null,
+      "right_indent_in": null,
+      "first_line_indent_in": null,
+      "space_before_pt": 3.0,
+      "space_after_pt": 3.0,
+      "line_spacing": null,
+      "line_spacing_rule": null,
+      "keep_with_next": null,
+      "keep_together": null,
+      "page_break_before": null,
+      "runs": [
+        {
+          "text": "圖2　叡揚服務API串接架構",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": true,
+          "italic": null
+        },
+        {
+          "text": "\n(資料來源：本系統自行整理)",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": true,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 21,
+      "text": "AI工具運用範疇：C.AI負責交接訪談、知識問答、模擬客戶演練評分與會議重點整理；ChatGPT與Claude則用於開發階段的程式撰寫輔助、提示詞設計與文件整理。",
+      "style": "Normal",
+      "alignment": "JUSTIFY (3)",
+      "left_indent_in": 0.2917,
+      "right_indent_in": null,
+      "first_line_indent_in": 0.3889,
+      "space_before_pt": 3.0,
+      "space_after_pt": 3.0,
+      "line_spacing": null,
+      "line_spacing_rule": null,
+      "keep_with_next": null,
+      "keep_together": null,
+      "page_break_before": null,
+      "runs": [
+        {
+          "text": "AI工具運用範疇",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": true,
+          "italic": null
+        },
+        {
+          "text": "：C.AI負責交接訪談、知識問答、模擬客戶演練評分與會議重點整理；ChatGPT與Claude則用於開發階段的程式撰寫輔助、提示詞設計與文件整理。",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 22,
+      "text": "六、系統使用對象",
+      "style": "Normal",
+      "alignment": null,
+      "left_indent_in": 0.2917,
+      "right_indent_in": null,
+      "first_line_indent_in": null,
+      "space_before_pt": 3.0,
+      "space_after_pt": 3.0,
+      "line_spacing": null,
+      "line_spacing_rule": null,
+      "keep_with_next": true,
+      "keep_together": null,
+      "page_break_before": null,
+      "runs": [
+        {
+          "text": "六、系統使用對象",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": true,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 23,
+      "text": "離職交接人、接手人員、部門主管，以及需掌握全公司交接狀況的人資與高階主管；客戶也因服務窗口無縫銜接而受惠。",
+      "style": "Normal",
+      "alignment": "JUSTIFY (3)",
+      "left_indent_in": 0.2917,
+      "right_indent_in": null,
+      "first_line_indent_in": 0.3889,
+      "space_before_pt": 3.0,
+      "space_after_pt": 3.0,
+      "line_spacing": null,
+      "line_spacing_rule": null,
+      "keep_with_next": null,
+      "keep_together": null,
+      "page_break_before": null,
+      "runs": [
+        {
+          "text": "離職交接人、接手人員、部門主管，以及需掌握全公司交接狀況的人資與高階主管；客戶也因服務窗口無縫銜接而受惠。",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 24,
+      "text": "七、系統使用環境",
+      "style": "Normal",
+      "alignment": null,
+      "left_indent_in": 0.2917,
+      "right_indent_in": null,
+      "first_line_indent_in": null,
+      "space_before_pt": 3.0,
+      "space_after_pt": 3.0,
+      "line_spacing": null,
+      "line_spacing_rule": null,
+      "keep_with_next": true,
+      "keep_together": null,
+      "page_break_before": null,
+      "runs": [
+        {
+          "text": "七、系統使用環境",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": true,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 25,
+      "text": "使用者端為iOS或Android手機上的LINE App，以及Chrome、Edge等瀏覽器；整合服務部署於可提供HTTPS的雲端主機，以接收各平台Webhook並呼叫API。",
+      "style": "Normal",
+      "alignment": "JUSTIFY (3)",
+      "left_indent_in": 0.2917,
+      "right_indent_in": null,
+      "first_line_indent_in": 0.3889,
+      "space_before_pt": 3.0,
+      "space_after_pt": 3.0,
+      "line_spacing": null,
+      "line_spacing_rule": null,
+      "keep_with_next": null,
+      "keep_together": null,
+      "page_break_before": null,
+      "runs": [
+        {
+          "text": "使用者端為iOS或Android手機上的LINE App，以及Chrome、Edge等瀏覽器；整合服務部署於可提供HTTPS的雲端主機，以接收各平台Webhook並呼叫API。",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 26,
+      "text": "八、結語",
+      "style": "Normal",
+      "alignment": null,
+      "left_indent_in": 0.2917,
+      "right_indent_in": null,
+      "first_line_indent_in": null,
+      "space_before_pt": 3.0,
+      "space_after_pt": 3.0,
+      "line_spacing": null,
+      "line_spacing_rule": null,
+      "keep_with_next": true,
+      "keep_together": null,
+      "page_break_before": null,
+      "runs": [
+        {
+          "text": "八、結語",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": true,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 27,
+      "text": "「交接不斷線」以API把分散的叡揚服務串成一條完整的交接流程，再用AI把離職者腦中的經驗轉為可查詢、可演練的知識。我們希望交接不再只是一份離職清單，而是企業每一次人員異動時都能持續累積知識的機會。",
+      "style": "Normal",
+      "alignment": "JUSTIFY (3)",
+      "left_indent_in": 0.2917,
+      "right_indent_in": null,
+      "first_line_indent_in": 0.3889,
+      "space_before_pt": 3.0,
+      "space_after_pt": 3.0,
+      "line_spacing": null,
+      "line_spacing_rule": null,
+      "keep_with_next": null,
+      "keep_together": null,
+      "page_break_before": null,
+      "runs": [
+        {
+          "text": "「交接不斷線」以API把分散的叡揚服務串成一條完整的交接流程，再用AI把離職者腦中的經驗轉為可查詢、可演練的知識。我們希望交接不再只是一份離職清單，而是企業每一次人員異動時都能持續累積知識的機會。",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 28,
+      "text": "參考文獻",
+      "style": "Normal",
+      "alignment": "CENTER (1)",
+      "left_indent_in": null,
+      "right_indent_in": null,
+      "first_line_indent_in": null,
+      "space_before_pt": 3.0,
+      "space_after_pt": 3.0,
+      "line_spacing": null,
+      "line_spacing_rule": null,
+      "keep_with_next": true,
+      "keep_together": null,
+      "page_break_before": null,
+      "runs": [
+        {
+          "text": "參考文獻",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": true,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 29,
+      "text": "科技新報（2024年8月15日）。釋放AI與雲端創新能量！叡揚智慧辦公實現數位與永續雙軸轉型。取自https://technews.tw/2024/08/15/ai-cloud-gss-smart-office/",
+      "style": "Normal",
+      "alignment": null,
+      "left_indent_in": 0.5,
+      "right_indent_in": null,
+      "first_line_indent_in": -0.5,
+      "space_before_pt": 3.0,
+      "space_after_pt": 3.0,
+      "line_spacing": null,
+      "line_spacing_rule": null,
+      "keep_with_next": null,
+      "keep_together": null,
+      "page_break_before": null,
+      "runs": [
+        {
+          "text": "科技新報（2024年8月15日）。釋放AI與雲端創新能量！叡揚智慧辦公實現數位與永續雙軸轉型。取自https://technews.tw/2024/08/15/ai-cloud-gss-smart-office/",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 30,
+      "text": "叡揚資訊（n.d.-a）。AI Agent與MCP是什麼？Vital BizForm為何選擇先打造MCP Server。取自https://www.gss.com.tw/e-forum/user-tell/4760-what-is-ai-agent-and-mcp-why-vital-bizform-builds-mcp-server-first",
+      "style": "Normal",
+      "alignment": null,
+      "left_indent_in": 0.5,
+      "right_indent_in": null,
+      "first_line_indent_in": -0.5,
+      "space_before_pt": 3.0,
+      "space_after_pt": 3.0,
+      "line_spacing": null,
+      "line_spacing_rule": null,
+      "keep_with_next": null,
+      "keep_together": null,
+      "page_break_before": null,
+      "runs": [
+        {
+          "text": "叡揚資訊（n.d.-a）。AI Agent與MCP是什麼？Vital BizForm為何選擇先打造MCP Server。取自https://www.gss.com.tw/e-forum/user-tell/4760-what-is-ai-agent-and-mcp-why-vital-bizform-builds-mcp-server-first",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 31,
+      "text": "叡揚資訊（n.d.-b）。Vital CRM API整合。取自https://www.gsscloud.com/tw/vital-crm/integration/",
+      "style": "Normal",
+      "alignment": null,
+      "left_indent_in": 0.5,
+      "right_indent_in": null,
+      "first_line_indent_in": -0.5,
+      "space_before_pt": 3.0,
+      "space_after_pt": 3.0,
+      "line_spacing": null,
+      "line_spacing_rule": null,
+      "keep_with_next": null,
+      "keep_together": null,
+      "page_break_before": null,
+      "runs": [
+        {
+          "text": "叡揚資訊（n.d.-b）。Vital CRM API整合。取自",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "https://www.gsscloud.com/tw/vital-crm/integration/",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 32,
+      "text": "叡揚資訊（n.d.-c）。Vital CRM自動化中心。取自https://www.gsscloud.com/tw/vital-crm/automate",
+      "style": "Normal",
+      "alignment": null,
+      "left_indent_in": 0.5,
+      "right_indent_in": null,
+      "first_line_indent_in": -0.5,
+      "space_before_pt": 3.0,
+      "space_after_pt": 3.0,
+      "line_spacing": null,
+      "line_spacing_rule": null,
+      "keep_with_next": null,
+      "keep_together": null,
+      "page_break_before": null,
+      "runs": [
+        {
+          "text": "叡揚資訊（n.d.-c）。Vital CRM自動化中心。取自https://www.gsscloud.com/tw/vital-crm/automate",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 33,
+      "text": "Lewis, P., Perez, E., Piktus, A., Petroni, F., Karpukhin, V., Goyal, N., . . . Kiela, D. (2020). Retrieval-augmented generation for knowledge-intensive NLP tasks. Advances in Neural Information Processing Systems, 33, 9459–9474.",
+      "style": "Normal",
+      "alignment": null,
+      "left_indent_in": 0.5,
+      "right_indent_in": null,
+      "first_line_indent_in": -0.5,
+      "space_before_pt": 3.0,
+      "space_after_pt": 3.0,
+      "line_spacing": null,
+      "line_spacing_rule": null,
+      "keep_with_next": null,
+      "keep_together": null,
+      "page_break_before": null,
+      "runs": [
+        {
+          "text": "Lewis, P., Perez, E., Piktus, A., Petroni, F., Karpukhin, V., Goyal, N., . . . Kiela, D. (2020). Retrieval-augmented generation for knowledge-intensive NLP tasks. ",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "Advances in Neural Information Processing Systems, 33",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": true
+        },
+        {
+          "text": ", 9459–9474.",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 34,
+      "text": "LY Corporation. (n.d.-a). Messaging API overview. Retrieved from https://developers.line.biz/en/docs/messaging-api/overview/",
+      "style": "Normal",
+      "alignment": null,
+      "left_indent_in": 0.5,
+      "right_indent_in": null,
+      "first_line_indent_in": -0.5,
+      "space_before_pt": 3.0,
+      "space_after_pt": 3.0,
+      "line_spacing": null,
+      "line_spacing_rule": null,
+      "keep_with_next": null,
+      "keep_together": null,
+      "page_break_before": null,
+      "runs": [
+        {
+          "text": "LY Corporation. (n.d.-a). ",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "Messaging API overview",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": true
+        },
+        {
+          "text": ". Retrieved from https://developers.line.biz/en/docs/messaging-api/overview/",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 35,
+      "text": "LY Corporation. (n.d.-b). Receive messages (webhook). Retrieved from https://developers.line.biz/en/docs/messaging-api/receiving-messages/",
+      "style": "Normal",
+      "alignment": null,
+      "left_indent_in": 0.5,
+      "right_indent_in": null,
+      "first_line_indent_in": -0.5,
+      "space_before_pt": 3.0,
+      "space_after_pt": 3.0,
+      "line_spacing": null,
+      "line_spacing_rule": null,
+      "keep_with_next": null,
+      "keep_together": null,
+      "page_break_before": null,
+      "runs": [
+        {
+          "text": "LY Corporation. (n.d.-b). ",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "Receive messages (webhook)",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": true
+        },
+        {
+          "text": ". Retrieved from https://developers.line.biz/en/docs/messaging-api/receiving-messages/",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 36,
+      "text": "Massingham, P. (2018). Measuring the impact of knowledge loss: A longitudinal study. Journal of Knowledge Management, 22(4), 721–758. doi:10.1108/JKM-08-2016-0338",
+      "style": "Normal",
+      "alignment": null,
+      "left_indent_in": 0.5,
+      "right_indent_in": null,
+      "first_line_indent_in": -0.5,
+      "space_before_pt": 3.0,
+      "space_after_pt": 3.0,
+      "line_spacing": null,
+      "line_spacing_rule": null,
+      "keep_with_next": null,
+      "keep_together": null,
+      "page_break_before": null,
+      "runs": [
+        {
+          "text": "Massingham, P. (2018). Measuring the impact of knowledge loss: A longitudinal study. ",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "Journal of Knowledge Management, 22",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": true
+        },
+        {
+          "text": "(4), 721–758. doi:10.1108/JKM-08-2016-0338",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 37,
+      "text": "Microsoft. (n.d.). Power BI REST APIs. Retrieved from https://learn.microsoft.com/en-us/rest/api/power-bi/",
+      "style": "Normal",
+      "alignment": null,
+      "left_indent_in": 0.5,
+      "right_indent_in": null,
+      "first_line_indent_in": -0.5,
+      "space_before_pt": 3.0,
+      "space_after_pt": 3.0,
+      "line_spacing": null,
+      "line_spacing_rule": null,
+      "keep_with_next": null,
+      "keep_together": null,
+      "page_break_before": null,
+      "runs": [
+        {
+          "text": "Microsoft. (n.d.). ",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "Power BI REST APIs",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": true
+        },
+        {
+          "text": ". Retrieved from https://learn.microsoft.com/en-us/rest/api/power-bi/",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 38,
+      "text": "Nonaka, I., & Takeuchi, H. (1995). The knowledge-creating company: How Japanese companies create the dynamics of innovation. New York, NY: Oxford University Press.",
+      "style": "Normal",
+      "alignment": null,
+      "left_indent_in": 0.5,
+      "right_indent_in": null,
+      "first_line_indent_in": -0.5,
+      "space_before_pt": 3.0,
+      "space_after_pt": 3.0,
+      "line_spacing": null,
+      "line_spacing_rule": null,
+      "keep_with_next": null,
+      "keep_together": null,
+      "page_break_before": null,
+      "runs": [
+        {
+          "text": "Nonaka, I., & Takeuchi, H. (1995). ",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "The knowledge-creating company: How Japanese companies create the dynamics of innovation",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": true
+        },
+        {
+          "text": ". New York, NY: Oxford University Press.",
+          "font": null,
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    }
+  ],
+  "tables": [
+    {
+      "index": 0,
+      "rows": 4,
+      "columns": 3,
+      "cells": [
+        [
+          "服務",
+          "串接方式",
+          "交換資料與用途"
+        ],
+        [
+          "VITAL BizForm",
+          "API、Webhook",
+          "建立交接與驗收表單；簽核完成時以Webhook通知整合服務（叡揚資訊，n.d.-a）"
+        ],
+        [
+          "VITAL CRM",
+          "API整合模組、自動化中心Webhook",
+          "寫入知識卡與會議紀錄；客戶資料異動時即時通知（叡揚資訊，n.d.-b，n.d.-c）"
+        ],
+        [
+          "C.AI",
+          "部署於LINE、知識文件更新",
+          "定期將新知識卡更新至知識庫，提供問答、訪談與演練（科技新報，2024）"
+        ]
+      ]
+    }
+  ],
+  "inline_shapes": 2
+}

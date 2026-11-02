@@ -1,0 +1,1879 @@
+{
+  "path": "C:\\Users\\Gary9\\OneDrive\\桌面\\資服競賽\\文件書\\草稿文件書\\LearnMate_AI_系統概述文件_5頁內修正版.docx",
+  "sections": [
+    {
+      "index": 1,
+      "orientation": "PORTRAIT (0)",
+      "page_width_in": 8.5,
+      "page_height_in": 11.0,
+      "margin_top_in": 0.7875,
+      "margin_bottom_in": 0.7875,
+      "margin_left_in": 0.7875,
+      "margin_right_in": 0.7875,
+      "gutter_in": 0.3937,
+      "header_distance_in": 0.5,
+      "footer_distance_in": 0.5,
+      "header_text": "",
+      "footer_text": ""
+    }
+  ],
+  "paragraph_count": 6,
+  "nonempty_paragraph_count": 6,
+  "empty_paragraph_count": 0,
+  "used_styles": {
+    "Normal": 6
+  },
+  "style_definitions": [
+    {
+      "name": "Normal",
+      "type": "PARAGRAPH (1)",
+      "base_style": null,
+      "font": null,
+      "size_pt": null,
+      "bold": null,
+      "italic": null,
+      "alignment": null,
+      "left_indent_in": null,
+      "right_indent_in": null,
+      "first_line_indent_in": null,
+      "space_before_pt": null,
+      "space_after_pt": null,
+      "line_spacing": null,
+      "line_spacing_rule": null
+    }
+  ],
+  "paragraphs": [
+    {
+      "index": 0,
+      "text": "系統概述文件\t編號:",
+      "style": "Normal",
+      "alignment": null,
+      "left_indent_in": 0.0,
+      "right_indent_in": null,
+      "first_line_indent_in": 0.0,
+      "space_before_pt": null,
+      "space_after_pt": 3.0,
+      "line_spacing": 3.0,
+      "line_spacing_rule": "MULTIPLE (5)",
+      "keep_with_next": null,
+      "keep_together": null,
+      "page_break_before": null,
+      "runs": [
+        {
+          "text": "系統概述文件",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "\t",
+          "font": null,
+          "size_pt": null,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "編號:",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "text": "LearnMate AI－AI 自適性智慧學習平台",
+      "style": "Normal",
+      "alignment": null,
+      "left_indent_in": 0.0,
+      "right_indent_in": null,
+      "first_line_indent_in": 0.0,
+      "space_before_pt": null,
+      "space_after_pt": 3.0,
+      "line_spacing": 3.0,
+      "line_spacing_rule": "MULTIPLE (5)",
+      "keep_with_next": null,
+      "keep_together": null,
+      "page_break_before": null,
+      "runs": [
+        {
+          "text": "LearnMate AI－AI ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "自適性智慧學習平台",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "text": "一、前言\t隨著數位學習發展，學生可以取得大量課程、影片與數位教材，但資源增加不一定代表學習成效提升。學生可能知道自己考了幾分，卻不知道問題出在哪裡，也不知道下一步應該如何補強。LearnMate AI 以「智慧學習＋分析反饋」為核心，將學習歷程、生成式 AI、RAG 與學習數據分析整合至線上學習環境。系統不只記錄學生學了多少，更進一步分析可能的學習困難，提供個人化的學習建議與補救。\t二、創意描述\tLearnMate AI 的創意是讓 AI 從單純的問答工具，進一步參與學習診斷與補救。系統會蒐集課程完成率、章節完成率、影片觀看次數、觀看時間、重複觀看、Quiz 成績與錯題等資料，綜合分析學生可能需要加強的章節或概念。當學生出現完成率偏低、影片反覆觀看或錯題集中等情況時，AI 可產生個人化診斷與補救方向；RAG AI 課程助教則以實際課程教材為依據提供解說，完成補救後再透過 AI Quiz 進行再次評量。教師端透過 Power BI 掌握整體課程學習狀況，並結合 AI 協助辨識可能的課程瓶頸，讓學生學習與教師教學改善形成完整的回饋機制。\t三、系統功能簡介\t課程探索與學習：提供課程瀏覽、分類、搜尋、章節學習與影片觀看。學習歷程分析：記錄課程完成率、章節完成率、影片觀看行為、學習進度及 Quiz 表現。 AI 學習診斷：綜合學習行為與測驗結果，分析可能的學習弱點，提供個人化建議。RAG AI 課程助教：透過 Azure AI Search 檢索課程知識庫，再由 Azure OpenAI 根據教材內容回答問題。個人化補救學習：依 AI 診斷結果提供相關教材、概念說明與學習建議。 AI 補救 Quiz：依學生弱點產生針對性的補救題目，完成後再次評量。教師端課程健康度分析：整理課程與章節完成率、影片觀看行為、Quiz 成績與錯題分布。Power BI 學習分析：以儀表板與圖表呈現學生及課程層級的學習資料。核心學習機制--學生進行課程學習時，系統持續累積學習資料；當資料呈現可能的學習困難時，由 AI 進行診斷並提供補救內容，再透過 AI Quiz 與再次評量觀察學習表現。相關資料同時提供教師進行課程層級分析。\t四、系統特色\t多維度學習診斷：不只依據測驗分數，而是綜合完成率、影片觀看、重複觀看、Quiz 成績與錯題等資訊。 課程情境化 AI 助教：結合 RAG 與課程知識庫，使 AI 回答能參考實際課程教材。個人化補救與再評估：依不同學生的診斷結果提供相應補救內容與 AI Quiz，並觀察補救前後表現。學生與教師雙向反饋：學生了解自己的學習弱點與後續方向，教師掌握課程中的共同困難與學習瓶頸。資料驅動的智慧學習：以真實學習歷程作為 AI 分析基礎，使學習支援更貼近學生需求。",
+      "style": "Normal",
+      "alignment": null,
+      "left_indent_in": null,
+      "right_indent_in": null,
+      "first_line_indent_in": null,
+      "space_before_pt": null,
+      "space_after_pt": 3.0,
+      "line_spacing": 3.0,
+      "line_spacing_rule": "MULTIPLE (5)",
+      "keep_with_next": null,
+      "keep_together": null,
+      "page_break_before": null,
+      "runs": [
+        {
+          "text": "一、前言",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "\t",
+          "font": null,
+          "size_pt": null,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "隨著數位學習發展，學生可以取得大量課程、影片與數位教材，但資源增加不一定代表學習成效提升。學生可能知道自己考了幾分，卻不知道問題出在哪裡，也不知道下一步應該如何補強。",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "LearnMate AI 以「智",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "慧學",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "習＋分析反饋」為核心，將學習歷程、生成式 AI、RAG 與學習數據分析整合至線上學習環境。系統不只記錄學生學了多少，更進一步分析可能的學習困難，提供個人化的學習建議與補救。",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "\t",
+          "font": null,
+          "size_pt": null,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "二、創意描述",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "\t",
+          "font": null,
+          "size_pt": null,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "LearnMate",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " AI ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "的創意是讓",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " AI ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "從單純的問答工具，進一步參與學習診斷與補救。系統會蒐集課程完成率、章節完成率、影片觀看次數、觀看時間、重複觀看、Quiz",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "成績與錯題等資料，綜合分析學生可能需要加強的章節或概念",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "。",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "當學生出現完成率偏低、影片反覆觀",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "看或錯題集中等情況時，AI",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "可產",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "生個人化診斷與補救方向；RAG",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " AI ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "課程",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "助教則以實際課程教材為",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "依據",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "提供解說，完成補救後再透過",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " AI ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "Quiz",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "進行再次評量",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "。",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "教師端透過",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " Power BI ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "掌握整體課程學習狀況，並結合",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " AI ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "協助辨識可能的課程瓶頸，讓學生學習與教師教學改善形成完整的回饋機制",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "。",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "\t",
+          "font": null,
+          "size_pt": null,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "三、系統功能簡介",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "\t",
+          "font": null,
+          "size_pt": null,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "課",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "程探索與學習：提供課程瀏覽、分類、搜尋、章節學習與影片觀看",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "。",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "學習歷程分析：",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "記錄課程完成率、章節完成率、影片觀看行為、學習進度及",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " Quiz ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "表現",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "。",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " AI ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "學習診斷：綜合學習行為與測驗結果，分析可能的學習弱點，提供個人",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "化建議",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "。",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "RAG",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " AI ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "課程助教：透過",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " Azure AI Search ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "檢索課程知識庫，再由",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " Azure OpenAI ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "根據教材內容回答問題",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "。",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "個人化補救學習：依",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " AI ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "診斷結果提供相關教材、概念說明與學習建議",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "。",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " AI ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "補救",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "Quiz：依學生弱點產生針對性的補救題目，完成後再次評量",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "。",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "教師端課程健康度分析：整理課程與章節完成率、影片觀看行為、Quiz",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "成績與錯題分布",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "。",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "Power BI ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "學習分析：以儀表板與圖表呈現學生及課程層級的學習資料",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "。",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "核心學習機制",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "--",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "學生進行課程學習時，系統持續累積學習資料；當資料呈現可能的學習困難時，由",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " AI ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "進行診斷並提供補救內容，再透過",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " AI Quiz ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "與再次評量觀察學習表現。相關資料同時提供教師進行課程層級分析",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "。",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "\t",
+          "font": null,
+          "size_pt": null,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "四、系統特色",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "\t",
+          "font": null,
+          "size_pt": null,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "多維度學習診斷：不只依",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "據測驗分數，而是綜合完成率、影片觀看、重複觀看、Quiz",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "成績與錯題等資訊",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "。",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "課程情境化",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " AI ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "助教：結合",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " RAG ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "與課程知",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "識庫，使",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " AI ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "回答能參考實際課程教材",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "。",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "個人化補救與再評估：依不同學生的診斷結果提供相應補救內容與",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " AI ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "Quiz，並觀察補救前後表現",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "。",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "學生與教師雙向反饋：學生了解自己的學習弱點與後續方向，教師掌握課程中的共同困難與學習瓶頸",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "。",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "資料驅動的智慧學習：以真實學習歷程作為",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " AI ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "分析基礎，使學習支援更貼近學生需求",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "。",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "text": "五、系統開發工具與技術\tDjango：主要 Web 開發框架，負責使用者介面、系統邏輯、身分驗證與功能整合。 MySQL 與 Django ORM：保存使用者、課程、學習進度、影片觀看紀錄、Quiz 與學習結果。 Azure OpenAI：執行 AI 學習診斷、學習建議、課程解說與 AI Quiz 產生。 Azure AI Search：建立課程教材搜尋與檢索機制，提供 RAG 課程助教的知識來源。RAG：將課程教材與生成式 AI 結合，使課程問答能以實際教材內容為依據。 Power BI：進行學生與課程層級的學習數據視覺化與分析。AWS Elastic Beanstalk：依目前專題環境設定，提供 Python Web 應用程式雲端部署與環境管理。\t六、系統使用對象\t學生：進行課程學習、影片觀看與 Quiz 作答，查看 AI 學習診斷，使用 RAG AI 課程助教，接受個人化補救與再次評量。教師：管理課程與教材，查看學生學習狀況、Quiz 表現與 Power BI 分析結果，掌握課程瓶頸並作為教學改善參考。平台管理者：負責使用者、課程、權限與平台基本資料管理，維持系統正常運作。\t七、系統使用環境",
+      "style": "Normal",
+      "alignment": null,
+      "left_indent_in": null,
+      "right_indent_in": null,
+      "first_line_indent_in": null,
+      "space_before_pt": null,
+      "space_after_pt": 3.0,
+      "line_spacing": 3.0,
+      "line_spacing_rule": "MULTIPLE (5)",
+      "keep_with_next": null,
+      "keep_together": null,
+      "page_break_before": null,
+      "runs": [
+        {
+          "text": "五、系統開發工具與技術",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "\t",
+          "font": null,
+          "size_pt": null,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "Django：主要",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " Web ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "開發框架，負責使用者介面、系統邏輯、身分驗證與功能整合",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "。",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " MySQL 與 Django ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "ORM：保存使用者、課程、學習進度、影片觀看紀錄、Quiz",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "與學習結果",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "。",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " Azure ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "OpenAI：執行",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " AI ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "學習診斷、學習建議、課程解說與",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " AI Quiz ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "產生",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "。",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " Azure AI ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "Search：建立課程教材搜尋與檢索機制，提供",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " RAG ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "課程助教的知識來源",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "。",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "RAG：將課程教材與生成式",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " AI ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "結合，使課程問答能以實際教材內容為依據",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "。",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " Power ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "BI：進行學生與課程層級的學習數據視覺化與分析",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "。",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "AWS",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " Elastic ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "Beanstalk：依目前專題環境設定，提供",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " Python Web ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "應用程式雲端部署與環境管理",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "。",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "\t",
+          "font": null,
+          "size_pt": null,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "六、系統使用對象",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "\t",
+          "font": null,
+          "size_pt": null,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "學生：進行課程學習、影片觀看與",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " Quiz ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "作答，查看",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " AI ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "學習診斷，使用",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " RAG AI ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "課程助教，接受個人化補救與再次評量",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "。",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "教師：管理課程與教材，查看學生學習狀況、Quiz",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "表現與",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " Power BI ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "分析結果，掌握課程瓶頸並作為教學改善參考",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "。",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "平台管理者：負責使用者、課程、權限與平台基本資料管理，維持系統正常運作",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "。",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "\t",
+          "font": null,
+          "size_pt": null,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "七、系統使用環境",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "text": "使用者可透過一般 Web 瀏覽器進入 LearnMate AI，依學生、教師與平台管理者角色使用對應功能。系統後端以 Django 建置，MySQL 儲存使用者與學習歷程資料，AI 功能透過 API 連接 Azure OpenAI 與 Azure AI Search。開發與測試階段可於本機環境執行 Django 與 MySQL；依目前專題環境設定，正式部署使用 AWS Elastic Beanstalk 執行 Python Web 應用程式，並搭配雲端資料庫及相關 AI 服務。系統需要穩定的網路連線以使用雲端 AI 與資料服務。使用者端以現代 Web 瀏覽器即可操作，教師進行 Power BI 分析時則需能正常連線至相關分析服務。為維持系統安全，AI API 金鑰、資料庫連線與其他敏感設定應透過環境變數管理，不直接寫入程式碼。\t八、結語\tLearnMate AI－AI 自適性智慧學習平台以「智慧學習＋分析反饋」為核心，整合學習歷程分析、生成式 AI、RAG、AI 補救 Quiz 與 Power BI 學習分析。系統透過學生實際的學習資料分析可能的學習弱點，提供符合課程內容的 AI 支援與個人化補救，並透過再次評量觀察學習表現；教師則可從課程層級掌握整體學習狀況，作為教材與教學改善的參考。相較於只提供課程內容或單純 AI 問答的學習系統，LearnMate AI 更重視「學生為什麼學不會」以及「接下來應該如何幫助學生」。透過學習資料、AI 診斷、教材檢索、補救練習與成效觀察，建立以學生需求為中心的智慧學習環境。",
+      "style": "Normal",
+      "alignment": null,
+      "left_indent_in": null,
+      "right_indent_in": null,
+      "first_line_indent_in": null,
+      "space_before_pt": null,
+      "space_after_pt": 3.0,
+      "line_spacing": 3.0,
+      "line_spacing_rule": "MULTIPLE (5)",
+      "keep_with_next": null,
+      "keep_together": null,
+      "page_break_before": null,
+      "runs": [
+        {
+          "text": "使用者可透過一般",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " Web ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "瀏覽",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "器進入",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "LearnM",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "ate",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "AI，依學生、教師與平台管理者角色使",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "用對應功能。系統後端以",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " Django ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "建置，MySQL",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "儲存使用者與學習歷程資料，AI",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "功能透過",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " API ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "連接",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " Azure OpenAI 與 Azure AI ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "Search。",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "開發與測試",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "階段可於本機環境執行",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " Django 與 ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "MySQ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "L",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "；依目前專題環境設定，正式部署使用",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " AWS",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " Elastic Beanstalk ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "執行",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " Python",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " Web ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "應用程式",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "，並搭配雲端",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "資料庫及相關",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " AI ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "服務。",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "系統需要穩定的網路連線以使用雲端",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " AI 與資料服務。使用者端以現代 Web 瀏覽器即可操作，教師進行 Power BI 分析時則需能正常連線至相關分析服務。",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "為維持系統安全，AI API 金鑰、資料庫連線與其他敏感設定應透過環境變數管理，不直接寫入程式碼。",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "\t",
+          "font": null,
+          "size_pt": null,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "八、結語",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "\t",
+          "font": null,
+          "size_pt": null,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "LearnMate",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " AI－AI ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "自適性智慧學習平台以「智慧學習＋分析反饋」為核心，整合學習歷程分析、生成式",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " AI、RAG、AI ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "補救",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " Quiz 與 Power BI ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "學習分析",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "。",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "系統透過學生實際的學習資料分析可能的學習弱點，提供符合課程內容的",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " AI ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "支援與個人化補救，並透過再次評量觀察學習表現；教師則可從課程層級掌握整體學習狀況，作為教材與教學改善的參考",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "。",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "相較於只提供課程內容或單純",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " AI ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "問答的學習系統，LearnMate",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " AI ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "更重視「學生為什麼學不會」以及「接下來應該如何幫助學生",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "」。",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "透過學習資料、AI",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " ",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "診斷、教材檢索、補救練習與成效觀察，建立以學生需求為中心的智慧學習環境",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "。",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 5,
+      "text": "本系統期望透過 AI 與學習分析的結合，讓學生獲得更具個人化的學習支援，也讓教師能從大量學習資料中快速掌握課程問題，進一步提升教學與學習決策的效率。\t系統核心價值--看懂學習狀況，而不只是記錄學習結果。",
+      "style": "Normal",
+      "alignment": null,
+      "left_indent_in": null,
+      "right_indent_in": null,
+      "first_line_indent_in": null,
+      "space_before_pt": null,
+      "space_after_pt": 3.0,
+      "line_spacing": 3.0,
+      "line_spacing_rule": "MULTIPLE (5)",
+      "keep_with_next": null,
+      "keep_together": null,
+      "page_break_before": null,
+      "runs": [
+        {
+          "text": "本系統期望透過",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " AI 與學習分析的結合，讓學生獲得更具個人化的學習支援，也讓教師能從大量學習資料中快速掌握課程問題，進一步提升教學與學習決策的效率。",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "\t",
+          "font": null,
+          "size_pt": null,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "系統核心價值",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "--",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "看懂學習狀況，而不只是記錄學習結果",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "。",
+          "font": "DFKai-SB",
+          "size_pt": 14.0,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    }
+  ],
+  "tables": [],
+  "inline_shapes": 0
+}

@@ -1,0 +1,26 @@
+{
+  "record_type": "部分觀看後第二次測試",
+  "recorded_at": "2026-10-04T22:41:22+08:00",
+  "source": "使用者提供的第二次測試畫面與資料庫作答紀錄",
+  "quiz_attempt_id": 18,
+  "course": "Python Django 線上課程平台實作",
+  "chapter": "第 1 章：課程導入",
+  "chapter_completion_pct": 0,
+  "video_watch_pct": 34,
+  "quiz_score": 60,
+  "correct_count": 3,
+  "total_count": 5,
+  "weak_topics": [
+    "Django 專案結構",
+    "MVT 架構",
+    "基礎概念理解"
+  ],
+  "comparison_to_baseline": {
+    "baseline_attempt_id": 15,
+    "video_watch_pct_change": 18,
+    "quiz_score_change": 60,
+    "correct_count_change": 3,
+    "chapter_completion_pct_change": 0
+  },
+  "next_test_plan": "把第 1 章影片觀看至完成門檻後再測一次，確認完成率、觀看度與分數是否繼續上升。"
+}
