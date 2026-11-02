@@ -132,7 +132,11 @@
       const line = raw.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
       const ulm = line.match(/^\s*[-・]\s+(.*)$/);
       const olm = line.match(/^\s*\d+\.\s+(.*)$/);
-      if (ulm) {
+      const hm = line.match(/^\s*#{1,6}\s+(.*)$/);  // Markdown 標題（### 標題）
+      if (hm) {
+        closeList();
+        html += `<p><strong>${hm[1]}</strong></p>`;
+      } else if (ulm) {
         if (listType !== 'ul') { closeList(); html += '<ul>'; listType = 'ul'; }
         html += `<li>${ulm[1]}</li>`;
       } else if (olm) {

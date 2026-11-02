@@ -46,7 +46,7 @@
   </div>
 
   <!-- AI 解讀 -->
-  <div class="bg-gradient-to-br from-brand-50 to-violet-50 rounded-2xl ring-1 ring-brand-100 p-6" data-health-box>
+  <div class="bg-jp-surface rounded-2xl ring-1 ring-jp-border border-l-4 border-jp-primary p-6" data-health-box>
     <div class="flex items-center gap-2 mb-1">
       <span class="text-xl">🩺</span>
       <h2 class="font-black text-slate-900">AI 課程健康度分析</h2>
@@ -58,7 +58,7 @@
       AI 分析課程健康度
     </button>
 
-    <div data-health-result class="hidden mt-4 prose-diagnosis text-slate-700 text-sm leading-relaxed bg-white rounded-xl p-5 ring-1 ring-slate-100"></div>
+    <div data-health-result class="hidden mt-4 prose-diagnosis text-slate-700 text-sm leading-relaxed bg-jp-bg rounded-xl p-5 ring-1 ring-jp-border"></div>
   </div>
 </main>
 
@@ -66,7 +66,7 @@
   .prose-diagnosis ul { list-style: disc; padding-left: 1.25rem; margin: .4rem 0; }
   .prose-diagnosis ol { list-style: decimal; padding-left: 1.4rem; margin: .4rem 0; }
   .prose-diagnosis li { margin: .2rem 0; }
-  .prose-diagnosis strong { color: #0f172a; font-weight: 700; }
+  .prose-diagnosis strong { color: #ffffff; font-weight: 700; }
   .prose-diagnosis p { margin: .4rem 0; }
 </style>
 <script>
@@ -87,7 +87,11 @@
       let line = raw.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
       const ulm = line.match(/^\s*[-・]\s+(.*)$/);
       const olm = line.match(/^\s*\d+\.\s+(.*)$/);
-      if (ulm) { if (listType !== 'ul') { closeList(); html += '<ul>'; listType = 'ul'; } html += `<li>${ulm[1]}</li>`; }
+      const hm = line.match(/^\s*#{1,6}\s+(.*)$/);  // Markdown 標題（### 標題）
+      if (hm) {
+        closeList();
+        html += `<p><strong>${hm[1]}</strong></p>`;
+      } else if (ulm) { if (listType !== 'ul') { closeList(); html += '<ul>'; listType = 'ul'; } html += `<li>${ulm[1]}</li>`; }
       else if (olm) { if (listType !== 'ol') { closeList(); html += '<ol>'; listType = 'ol'; } html += `<li>${olm[1]}</li>`; }
       else if (line.trim() === '') { closeList(); }
       else { closeList(); html += `<p>${line}</p>`; }
